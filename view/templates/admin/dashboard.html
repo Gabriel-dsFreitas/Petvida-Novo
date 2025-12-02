@@ -1,0 +1,26 @@
+{% extends "layout/base_admin.html" %}
+{% block content %}
+<h1>👨‍💼 Administrador</h1>
+
+<div class="grid-containers">
+  
+  {% if usuario_adm %}
+    {% for adm in usuario_adm %}
+      <div class="container_admin">
+        <h2>Admin {{ loop.index }}</h2>
+        <div class="info-admin">
+          <strong>Nome:</strong> {{ adm.nome_admin }}<br>
+          <strong>Email:</strong> {{ adm.email }}
+        </div>
+        <div class="acoes-container">
+          <button class="btn">✏️ Editar</button>
+          <button class="btn btn-danger">🗑️ Deletar</button>
+        </div>
+      </div>
+    {% endfor %}
+  {% else %}
+    <p>Nenhum administrador cadastrado.</p>
+  {% endif %}
+
+</div>
+{% endblock %}

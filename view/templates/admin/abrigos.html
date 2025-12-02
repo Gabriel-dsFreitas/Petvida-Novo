@@ -1,0 +1,26 @@
+{% extends "layout/base_admin.html" %}
+{% block content %}
+<h1>🏠 Abrigos</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Nome</th>
+      <th>Localização</th>
+      <th>Ações</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for a in abrigos %}
+    <tr>
+      <td>{{ a.nome }}</td>
+      <td>{{ a.localizacao }}</td>
+      <td>
+        <button class="btn">Editar</button>
+        <button class="btn btn-danger">Deletar</button>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

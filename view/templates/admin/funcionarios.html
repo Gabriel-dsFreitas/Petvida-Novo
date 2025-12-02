@@ -1,0 +1,24 @@
+{% extends "layout/base_admin.html" %}
+{% block content %}
+
+<h1>🤝 Funcionários</h1>
+
+<div class="grid-containers">
+  {% for func in funcionarios %}
+  <div class="container_admin">
+    <h2>{{ func.nome }}</h2>
+    <div class="info-admin">
+      <strong>Cargo:</strong> {{ func.cargo }}<br>
+      <strong>Email:</strong> {{ func.email }}<br>
+      <strong>Telefone:</strong> {{ func.telefone }}<br>
+      <strong>Idade:</strong> {{ func.idade }} anos
+    </div>
+    <div class="acoes-container">
+      <button class="btn">Editar</button>
+      <button class="btn btn-danger">Excluir</button>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+
+{% endblock %}

@@ -1,0 +1,28 @@
+{% extends "layout/base_admin.html" %}
+{% block content %}
+<h1>👥 Usuários</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Nome</th>
+      <th>Email</th>
+      <th>Tipo</th>
+      <th>Ações</th>
+    </tr>
+  </thead>
+  <tbody>
+      {% for u in usuarios %}
+      <tr>
+        <td>{{ u.nome }}</td>
+        <td>{{ u.email }}</td>
+        <td>{{ u.tipo }}</td>
+        <td>
+          <button class="btn">Bloquear</button>
+          <button class="btn btn-danger">Remover</button>
+        </td>
+      </tr>
+      {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Produtos</title>
+</head>
+<body>
+
+    <h1>Lista de Produtos</h1>
+    <a href="/produtos/novo">+ Novo Produto</a>
+
+    <hr>
+
+    <table border="1" cellpadding="5">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nome</th>
+                <th>Espécie</th>
+                <th>Preço</th>
+                <th>Estoque</th>
+                <th>Status</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for p in produtos %}
+            <tr>
+                <td>{{ p.id_produto }}</td>
+                <td>{{ p.nome_produto }}</td>
+                <td>{{ p.especie }}</td>
+                <td>R$ {{ "%.2f"|format(p.preco_unitario) }}</td>
+                <td>{{ p.quantidade_estoque }}</td>
+                <td>{{ p.status }}</td>
+
+                <td>
+                    <a href="/produtos/{{ p.id_produto }}/editar">Editar</a>
+                    |
+                    <a href="/produtos/{{ p.id_produto }}/deletar" onclick="return confirm('Confirmar exclusão?')">
+                        Excluir
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+
+    </table>
+
+</body>
+</html>

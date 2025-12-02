@@ -1,0 +1,33 @@
+{% extends "layout/base_admin.html" %}
+{% block content %}
+
+<h1>📦 Gerenciar Produtos</h1>
+<a href="/admin_page/produtos/novo" class="btn">+ Adicionar Produto</a>
+
+<table>
+  <thead>
+    <tr>
+      <th>Nome</th>
+      <th>Preço</th>
+      <th>Estoque</th>
+      <th>Ações</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    {% for p in produtos %}
+    <tr>
+      <td>{{ p.nome_produto }}</td>
+      <td>R$ {{ "%.2f"|format(p.preco_unitario) }}</td>
+      <td>{{ p.quantidade_estoque }}</td>
+      <td>
+        <a href="/admin_page/produtos/editar/{{ p.id_produto }}" class="btn">Editar</a>
+        <a href="/admin_page/produtos/excluir/{{ p.id_produto }}" class="btn btn-danger">Excluir</a>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+
+</table>
+
+{% endblock %}

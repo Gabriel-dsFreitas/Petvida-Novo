@@ -1,0 +1,25 @@
+{% extends "layout/base_admin.html" %}
+{% block content %}
+<h1>💰 Vendas</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Produto</th>
+      <th>Qtd</th>
+      <th>Total</th>
+      <th>Data</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for v in vendas %}
+      <tr>
+        <td>{{ v.produto }}</td>
+        <td>{{ v.quantidade }}</td>
+        <td>R$ {{ v.total }}</td>
+        <td>{{ v.data }}</td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}
