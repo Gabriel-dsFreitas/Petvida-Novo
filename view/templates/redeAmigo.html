@@ -2,6 +2,12 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
+
+    <script>
+        window.tipoUsuarioBackend = "{{ session.get('tipoUsuario', '') }}";
+        window.emailUsuarioBackend = "{{ session.get('emailUsuario', '') }}";
+    </script>
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pet Vida - Tudo para seu Pet</title>
     <link rel="icon" href="icone-removebg-preview.png" type="image/png">
@@ -21,7 +27,6 @@
             --raio: 8px;
             --sombra: 0 4px 12px rgba(0, 0, 0, 0.1);
             --transicao: all 0.3s ease;
-            --cor-fundo: #ffbdd3;
             --cor-secundaria-login: #ff6f91;
             --cor-texto-login: #660000;
             --cor-botao-login: #ff6f91;
@@ -172,9 +177,30 @@
         }
 
         .botao-adote-vida:hover {
-            background: #d93d57;
+            background: #67189c;
             transform: translateY(-2px);
         }
+
+        .botao-adote-vida a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            transition: var(--transicao);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .botao-adote-vida a:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .botao-adote-vida a.active {
+            background-color: rgba(255, 255, 255, 0.2);
+        }        
 
         /* Navegação Principal */
         .navegacao-principal {
@@ -240,7 +266,7 @@
             color: var(--primaria);
         }
 
-        /* Banner Principal */
+        /* Banner Principal - ATUALIZADO COM CARROSSEL */
         .banner-principal {
             position: relative;
             height: 500px;
@@ -266,6 +292,20 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
+        }
+
+        .video-banner {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .video-wrapper {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
         }
 
         .conteudo-banner {
@@ -304,6 +344,63 @@
         .botao-banner:hover {
             background: var(--escura);
             transform: translateY(-2px);
+        }
+
+        /* Controles do Carrossel */
+        .controle-banner {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            transition: var(--transicao);
+            z-index: 10;
+        }
+
+        .controle-banner:hover {
+            background: rgba(255, 255, 255, 0.4);
+        }
+
+        .controle-anterior {
+            left: 20px;
+        }
+
+        .controle-proximo {
+            right: 20px;
+        }
+
+        /* Indicadores do Carrossel */
+        .indicadores-banner {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+            z-index: 10;
+        }
+
+        .indicador {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+            transition: var(--transicao);
+        }
+
+        .indicador.ativo {
+            background: white;
+            transform: scale(1.2);
         }
 
         /* Produtos em Destaque */
@@ -348,6 +445,7 @@
             box-shadow: var(--sombra);
             transition: var(--transicao);
             position: relative;
+            cursor: pointer;
         }
 
         .cartao-produto:hover {
@@ -450,147 +548,7 @@
             background: var(--escura);
         }
 
-        /* Seção de Adoção */
-        .secao-adocao {
-            padding: 60px 20px;
-            background: linear-gradient(135deg, #f8f5ff, #e6e0ff);
-        }
-
-        .container-adocao {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .cabecalho-adocao {
-            text-align: center;
-            margin-bottom: 40px;
-        }
-
-        .titulo-adocao {
-            font-size: 2.5rem;
-            color: var(--primaria);
-            margin-bottom: 15px;
-            font-family: 'Montserrat', sans-serif;
-        }
-
-        .subtitulo-adocao {
-            font-size: 1.2rem;
-            color: var(--escura);
-            max-width: 600px;
-            margin: 0 auto;
-        }
-
-        .grade-pets {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 30px;
-            margin-bottom: 40px;
-        }
-
-        .cartao-pet {
-            background: white;
-            border-radius: var(--raio);
-            overflow: hidden;
-            box-shadow: var(--sombra);
-            transition: var(--transicao);
-        }
-
-        .cartao-pet:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
-        }
-
-        .imagem-pet {
-            height: 250px;
-            overflow: hidden;
-        }
-
-        .imagem-pet img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: var(--transicao);
-        }
-
-        .cartao-pet:hover .imagem-pet img {
-            transform: scale(1.05);
-        }
-
-        .info-pet {
-            padding: 20px;
-        }
-
-        .nome-pet {
-            font-size: 1.4rem;
-            color: var(--primaria);
-            margin-bottom: 10px;
-            font-family: 'Montserrat', sans-serif;
-        }
-
-        .detalhes-pet {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin-bottom: 15px;
-        }
-
-        .detalhe-pet {
-            background: var(--clara);
-            padding: 5px 10px;
-            border-radius: 20px;
-            font-size: 0.9rem;
-            color: var(--escura);
-        }
-
-        .descricao-pet {
-            color: #666;
-            margin-bottom: 20px;
-            line-height: 1.5;
-        }
-
-        .botao-adotar {
-            width: 100%;
-            background: var(--destaque);
-            color: white;
-            border: none;
-            padding: 12px;
-            border-radius: var(--raio);
-            font-weight: 600;
-            cursor: pointer;
-            transition: var(--transicao);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-        }
-
-        .botao-adotar:hover {
-            background: #d93d57;
-        }
-
-        .chamada-adocao {
-            text-align: center;
-            margin-top: 40px;
-        }
-
-        .botao-chamada {
-            background: var(--primaria);
-            color: white;
-            border: none;
-            padding: 15px 30px;
-            border-radius: 30px;
-            font-size: 1.1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: var(--transicao);
-        }
-
-        .botao-chamada:hover {
-            background: var(--escura);
-            transform: translateY(-2px);
-        }
-
-        /* Serviços */
+        /* Sobre, Missão, valores e Serviços */
         .secao-servicos {
             padding: 60px 20px;
             max-width: 1200px;
@@ -632,55 +590,148 @@
             color: #718096;
         }
 
-        /* Newsletter */
-        .secao-newsletter {
-            background: var(--primaria);
-            color: white;
-            padding: 60px 20px;
-            text-align: center;
-        }
-
-        .conteudo-newsletter {
-            max-width: 600px;
+        .container-sobre {
+            max-width: 1200px;
             margin: 0 auto;
         }
 
-        .titulo-newsletter {
-            font-size: 2rem;
+        .cabecalho-sobre {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .titulo-sobre {
+            font-size: 2.5rem;
+            color: var(--primaria);
             margin-bottom: 15px;
             font-family: 'Montserrat', sans-serif;
         }
 
-        .formulario-newsletter {
-            display: flex;
-            max-width: 400px;
+        .subtitulo-sobre {
+            font-size: 1.2rem;
+            color: var(--texto);
+            max-width: 600px;
             margin: 0 auto;
         }
 
-        .entrada-newsletter {
-            flex: 1;
-            padding: 12px 15px;
-            border: none;
-            border-radius: 30px 0 0 30px;
-            font-size: 1rem;
+        .conteudo-sobre {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: start;
+            margin-bottom: 60px;
         }
 
-        .entrada-newsletter:focus {
-            outline: none;
+        .texto-sobre h3 {
+            color: var(--primaria);
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
-        .botao-newsletter {
-            background: var(--escura);
-            color: white;
-            border: none;
-            padding: 0 25px;
-            border-radius: 0 30px 30px 0;
-            cursor: pointer;
+        .texto-sobre h3 i {
+            color: var(--secundaria);
+        }
+
+        .missao-sobre,
+        .valores-sobre {
+            margin-bottom: 40px;
+        }
+
+        .valores-sobre ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .valores-sobre li {
+            padding: 8px 0;
+            border-bottom: 1px solid #e2e8f0;
+            display: flex;
+            align-items: center;
+        }
+
+        .valores-sobre li:before {
+            content: '✓';
+            color: var(--secundaria);
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        .estatistica {
+            text-align: center;
+        }
+
+        .numero {
+            display: block;
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primaria);
+            margin-bottom: 5px;
+        }
+
+        .label {
+            font-size: 0.9rem;
+            color: var(--texto);
+        }
+
+        .compromisso-social {
+            background: white;
+            padding: 40px;
+            border-radius: var(--raio);
+            box-shadow: var(--sombra);
+            text-align: center;
+        }
+
+        .compromisso-social h3 {
+            color: var(--primaria);
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .compromisso-social p {
+            max-width: 800px;
+            margin: 0 auto 30px;
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+
+        .acoes-sociais {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            flex-wrap: wrap;
+        }
+
+        .acao-social {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            padding: 20px;
+            background: var(--clara);
+            border-radius: var(--raio);
             transition: var(--transicao);
         }
 
-        .botao-newsletter:hover {
-            background: #1a202c;
+        .acao-social:hover {
+            transform: translateY(-5px);
+            background: var(--primaria);
+            color: white;
+        }
+
+        .acao-social:hover i {
+            color: white;
+        }
+
+        .acao-social i {
+            font-size: 2rem;
+            color: var(--primaria);
         }
 
         /* Rodapé */
@@ -796,7 +847,7 @@
             color: #718096;
         }
 
-        /* Modal de Cadastro/Login */
+        /* Overlay de login */
         .login-overlay {
             position: fixed;
             top: 0;
@@ -810,6 +861,7 @@
             z-index: 2000;
         }
 
+        /* Container principal do login */
         .login-container {
             background-color: white;
             padding: 2rem;
@@ -823,6 +875,7 @@
             overflow-y: auto;
         }
 
+        /* Botão de fechar */
         .login-close {
             position: absolute;
             top: 15px;
@@ -834,6 +887,7 @@
             color: #666;
         }
 
+        /* Título do login */
         .login-title {
             font-size: 1.5rem;
             margin-bottom: 1.5rem;
@@ -841,10 +895,12 @@
             text-align: center;
         }
 
+        /* Grupo do formulário */
         .form-group {
             margin-bottom: 1.2rem;
         }
 
+        /* Label do formulário */
         .form-group label {
             display: block;
             margin-bottom: 0.5rem;
@@ -852,6 +908,7 @@
             font-weight: bold;
         }
 
+        /* Campo de entrada */
         .form-control {
             width: 100%;
             padding: 0.8rem;
@@ -861,15 +918,18 @@
             transition: border-color 0.3s;
         }
 
+        /* Campo de entrada quando em foco */
         .form-control:focus {
             border-color: var(--cor-botao-login);
             outline: none;
         }
 
+        /* Campo de entrada com erro */
         .form-control.error {
             border-color: var(--cor-erro);
         }
 
+        /* Mensagem de erro */
         .error-message {
             color: var(--cor-erro);
             font-size: 0.8rem;
@@ -877,6 +937,7 @@
             display: block;
         }
 
+        /* Mensagem informativa */
         .info-message {
             color: #666;
             font-size: 0.75rem;
@@ -884,6 +945,7 @@
             display: block;
         }
 
+        /* Botão principal */
         .btn {
             background-color: var(--cor-botao-login);
             border: none;
@@ -897,28 +959,33 @@
             width: 100%;
         }
 
+        /* Efeito hover do botão */
         .btn:hover {
             background-color: var(--cor-botao-hover);
             transform: scale(1.02);
         }
 
+        /* Botão desabilitado */
         .btn:disabled {
             background-color: #ccc;
             cursor: not-allowed;
             transform: none;
         }
 
+        /* Botão secundário */
         .btn-secondary {
             background-color: transparent;
             border: 2px solid var(--cor-botao-login);
             color: var(--cor-botao-login);
         }
 
+        /* Efeito hover do botão secundário */
         .btn-secondary:hover {
             background-color: var(--cor-botao-login);
             color: white;
         }
 
+        /* Animação de carregamento */
         .loading {
             display: inline-block;
             width: 20px;
@@ -930,10 +997,12 @@
             margin-left: 10px;
         }
 
+        /* Animação de rotação */
         @keyframes spin {
             to { transform: rotate(360deg); }
         }
 
+        /* Mensagem de sucesso */
         .success-message {
             color: var(--cor-sucesso);
             font-size: 1rem;
@@ -941,6 +1010,7 @@
             margin: 1rem 0;
         }
 
+        /* Rodapé do login */
         .login-footer {
             text-align: center;
             margin-top: 1.5rem;
@@ -948,6 +1018,7 @@
             border-top: 1px solid #eee;
         }
 
+        /* Link do login */
         .login-link {
             color: var(--cor-botao-login);
             text-decoration: none;
@@ -955,10 +1026,12 @@
             cursor: pointer;
         }
 
+        /* Efeito hover do link */
         .login-link:hover {
             text-decoration: underline;
         }
 
+        /* Link "esqueci a senha" */
         .forgot-password {
             text-align: center;
             margin: 1rem 0;
@@ -977,16 +1050,18 @@
             align-items: center; 
             z-index: 9999; 
         }
+
         .modal-box { 
             background: white; 
             border-radius: 15px; 
             padding: 30px; 
             width: 90%; 
-            max-width: 400px; 
+            max-width: 500px; 
             max-height: 90vh; 
             overflow-y: auto; 
             position: relative; 
         }
+
         .close { 
             position: absolute; 
             top: 15px; 
@@ -996,21 +1071,25 @@
             border: none; 
             background: none; 
         }
+
         .modal-title { 
             color: #660000; 
             font-size: 1.5rem; 
             margin-bottom: 20px; 
             text-align: center; 
         }
+
         .form-group { 
             margin-bottom: 15px; 
         }
+
         .form-group label { 
             display: block; 
             color: #660000; 
             font-weight: bold; 
             margin-bottom: 5px; 
         }
+
         .form-control { 
             width: 100%; 
             padding: 10px; 
@@ -1018,23 +1097,28 @@
             border-radius: 8px; 
             font-size: 1rem; 
         }
+
         .form-control:focus { 
             outline: none; 
             border-color: #ff6f91; 
         }
+
         .form-control.error { 
             border-color: #f44336; 
         }
+
         .error-msg { 
             color: #f44336; 
             font-size: 0.8rem; 
             margin-top: 5px; 
         }
+
         .info-msg { 
             color: #666; 
             font-size: 0.75rem; 
             margin-top: 5px; 
         }
+
         .btn { 
             width: 100%; 
             background: #ff6f91; 
@@ -1047,46 +1131,56 @@
             cursor: pointer; 
             margin-top: 10px; 
         }
+
         .btn:hover { 
             background: #cc0055; 
         }
+
         .btn:disabled { 
             background: #ccc; 
             cursor: not-allowed; 
         }
+
         .btn-sec { 
             background: transparent; 
             border: 2px solid #ff6f91; 
             color: #ff6f91; 
         }
+
         .btn-sec:hover { 
             background: #ff6f91; 
             color: white; 
         }
+
         .footer-modal { 
             text-align: center; 
             margin-top: 20px; 
             padding-top: 20px; 
             border-top: 1px solid #eee; 
         }
+
         .link { 
             color: #ff6f91; 
             cursor: pointer; 
             font-weight: bold; 
             text-decoration: none; 
         }
+
         .link:hover { 
             text-decoration: underline; 
         }
+
         .success { 
             color: #4caf50;
             text-align: center; 
             margin: 15px 0; 
         }
+
         .forgot { 
             text-align: center; 
             margin: 15px 0; 
         }
+
         .spinner { 
             display: inline-block; 
             width: 16px; 
@@ -1096,8 +1190,1024 @@
             border-top-color: white; 
             animation: spin 0.8s linear infinite; 
         }
+
         @keyframes spin { 
             to { transform: rotate(360deg); } 
+        }        
+        
+        /* Página de Produto */
+        .pagina-produto-detalhes {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .botao-voltar {
+            background: none;
+            border: none;
+            color: var(--primaria);
+            font-size: 1rem;
+            cursor: pointer;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: var(--transicao);
+        }
+
+        .botao-voltar:hover {
+            color: var(--escura);
+        }
+
+        .produto-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .galeria-produto {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .imagem-principal {
+            width: 100%;
+            height: 400px;
+            overflow: hidden;
+            border-radius: var(--raio);
+            background: #f8f9fa;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .imagem-principal img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+
+        .miniaturas-container {
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+        }
+
+        .miniatura {
+            width: 80px;
+            height: 80px;
+            border-radius: var(--raio);
+            overflow: hidden;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: var(--transicao);
+            flex-shrink: 0;
+            background: #f8f9fa;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .miniatura.ativa {
+            border-color: var(--primaria);
+        }
+
+        .miniatura img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            padding: 5px;
+        }
+
+        .info-produto-detalhes {
+            padding: 20px 0;
+        }
+
+        .nome-produto-detalhes {
+            font-size: 2rem;
+            margin-bottom: 15px;
+            color: var(--texto);
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .avaliacao-produto {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .estrelas {
+            color: #ffc107;
+        }
+
+        .numero-avaliacoes {
+            color: #718096;
+            font-size: 0.9rem;
+        }
+
+        .preco-container {
+            margin-bottom: 25px;
+        }
+
+        .preco-atual-detalhes {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primaria);
+            margin-bottom: 5px;
+        }
+
+        .preco-original-detalhes {
+            font-size: 1.2rem;
+            color: #a0aec0;
+            text-decoration: line-through;
+            margin-right: 10px;
+        }
+
+        .desconto {
+            background: var(--destaque);
+            color: white;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .frete-gratis {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #38a169;
+            font-weight: 600;
+            margin-top: 10px;
+        }
+
+        .opcoes-compra {
+            margin-bottom: 25px;
+        }
+
+        .opcao-titulo {
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .opcoes-variacao {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .opcao-variacao {
+            padding: 8px 16px;
+            border: 2px solid #e2e8f0;
+            border-radius: var(--raio);
+            cursor: pointer;
+            transition: var(--transicao);
+        }
+
+        .opcao-variacao.ativa {
+            border-color: var(--primaria);
+            background: var(--clara);
+        }
+
+        .quantidade-container {
+            margin-bottom: 25px;
+        }
+
+        .quantidade-controles {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 10px 0;
+        }
+
+        .quantidade-btn {
+            width: 35px;
+            height: 35px;
+            border: 1px solid #e2e8f0;
+            background: white;
+            border-radius: var(--raio);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #quantidadeProduto {
+            width: 60px;
+            text-align: center;
+            padding: 8px;
+            border: 1px solid #e2e8f0;
+            border-radius: var(--raio);
+        }
+
+        .botoes-acao {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .btn-comprar-agora {
+            flex: 2;
+            background: var(--destaque);
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: var(--raio);
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transicao);
+        }
+
+        .btn-comprar-agora:hover {
+            background: #d93d57;
+        }
+
+        .btn-adicionar-carrinho {
+            flex: 1;
+            background: var(--primaria);
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: var(--raio);
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transicao);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn-adicionar-carrinho:hover {
+            background: var(--escura);
+        }
+
+        .descricao-produto {
+            border-top: 1px solid #e2e8f0;
+            padding-top: 30px;
+        }
+
+        .titulo-descricao {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            color: var(--texto);
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .caracteristicas-lista {
+            list-style: none;
+            margin-top: 15px;
+        }
+
+        .caracteristicas-lista li {
+            padding: 8px 0;
+            border-bottom: 1px solid #f1f1f1;
+            display: flex;
+        }
+
+        .caracteristica-titulo {
+            font-weight: 600;
+            min-width: 150px;
+        }
+
+        /* Página de Pagamento */
+        .pagina-pagamento {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .resumo-pedido {
+            background: white;
+            border-radius: var(--raio);
+            padding: 20px;
+            box-shadow: var(--sombra);
+            margin-bottom: 20px;
+        }
+
+        .resumo-pedido h3 {
+            margin-bottom: 15px;
+            color: var(--primaria);
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .item-resumo {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #f1f1f1;
+        }
+
+        .total-resumo {
+            display: flex;
+            justify-content: space-between;
+            padding: 15px 0;
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: var(--primaria);
+            border-top: 2px solid #e2e8f0;
+            margin-top: 10px;
+        }
+
+        /* Estilos para a página de pagamento e finalização */
+        .formas-pagamento {
+            background: white;
+            border-radius: var(--raio);
+            padding: 25px;
+            box-shadow: var(--sombra);
+            margin-bottom: 25px;
+        }
+
+        .formas-pagamento h3,
+        .formas-entrega h3 {
+            color: var(--primaria);
+            margin-bottom: 20px;
+            font-family: 'Montserrat', sans-serif;
+            border-bottom: 2px solid var(--clara);
+            padding-bottom: 10px;
+        }
+
+        .opcoes-pagamento {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .opcao-pagamento {
+            border: 2px solid #e2e8f0;
+            border-radius: var(--raio);
+            padding: 15px;
+            cursor: pointer;
+            transition: var(--transicao);
+            text-align: center;
+        }
+
+        .opcao-pagamento.selecionada {
+            border-color: var(--primaria);
+            background: var(--clara);
+        }
+
+        .icone-pagamento {
+            font-size: 2rem;
+            color: var(--primaria);
+            margin-bottom: 10px;
+        }
+
+        .formas-entrega {
+            background: white;
+            border-radius: var(--raio);
+            padding: 25px;
+            box-shadow: var(--sombra);
+            margin-bottom: 25px;
+        }
+
+        .opcoes-entrega {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+        }
+
+        .opcao-entrega {
+            border: 2px solid #e2e8f0;
+            border-radius: var(--raio);
+            padding: 20px;
+            cursor: pointer;
+            transition: var(--transicao);
+        }
+
+        .opcao-entrega.selecionada {
+            border-color: var(--primaria);
+            background: var(--clara);
+        }
+
+        .info-entrega {
+            margin-top: 10px;
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .endereco-entrega {
+            background: white;
+            border-radius: var(--raio);
+            padding: 25px;
+            box-shadow: var(--sombra);
+            margin-bottom: 25px;
+        }
+
+        .campo-endereco {
+            margin-bottom: 15px;
+        }
+
+        .campo-endereco label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+            color: var(--texto);
+        }
+
+        .campo-endereco input,
+        .campo-endereco select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #e2e8f0;
+            border-radius: var(--raio);
+            font-size: 1rem;
+            transition: var(--transicao);
+        }
+
+        .campo-endereco input:focus,
+        .campo-endereco select:focus {
+            outline: none;
+            border-color: var(--primaria);
+        }
+
+        .grupo-campos {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .resumo-final {
+            background: white;
+            border-radius: var(--raio);
+            padding: 25px;
+            box-shadow: var(--sombra);
+            margin-top: 25px;
+        }
+
+        .item-resumo-final {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #f1f1f1;
+        }
+
+        .total-final {
+            display: flex;
+            justify-content: space-between;
+            padding: 15px 0;
+            font-weight: 700;
+            font-size: 1.3rem;
+            color: var(--primaria);
+            border-top: 2px solid #e2e8f0;
+            margin-top: 10px;
+        }
+
+        .botao-confirmar {
+            width: 100%;
+            background: var(--destaque);
+            color: white;
+            border: none;
+            padding: 18px;
+            border-radius: var(--raio);
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transicao);
+            margin-top: 20px;
+        }
+
+        .botao-confirmar:hover {
+            background: #d93d57;
+            transform: translateY(-2px);
+        }
+
+        .botao-confirmar:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .mensagem-erro {
+            color: var(--cor-erro);
+            font-size: 0.9rem;
+            margin-top: 5px;
+            display: block;
+        }
+
+        /* Carrinho Flutuante */
+        .carrinho-flutuante {
+            position: fixed;
+            top: 0;
+            right: -400px;
+            width: 380px;
+            height: 100vh;
+            background: white;
+            box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
+            transition: var(--transicao);
+            z-index: 2001;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .carrinho-flutuante.aberto {
+            right: 0;
+        }
+
+        .cabecalho-carrinho {
+            padding: 20px;
+            border-bottom: 1px solid #e2e8f0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .cabecalho-carrinho h3 {
+            margin: 0;
+            color: var(--primaria);
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .fechar-carrinho {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #718096;
+        }
+
+        .conteudo-carrinho {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        .item-carrinho {
+            display: flex;
+            gap: 15px;
+            padding: 15px 0;
+            border-bottom: 1px solid #f1f1f1;
+        }
+
+        .imagem-item-carrinho {
+            width: 80px;
+            height: 80px;
+            border-radius: var(--raio);
+            overflow: hidden;
+            background: #f8f9fa;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .imagem-item-carrinho img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+
+        .info-item-carrinho {
+            flex: 1;
+        }
+
+        .info-item-carrinho h4 {
+            margin-bottom: 5px;
+            font-size: 1rem;
+        }
+
+        .preco-item {
+            font-weight: 600;
+            color: var(--primaria);
+            margin-bottom: 10px;
+        }
+
+        .acoes-item-carrinho {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .quantidade-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .quantidade-item button {
+            width: 25px;
+            height: 25px;
+            border: 1px solid #e2e8f0;
+            background: white;
+            border-radius: 4px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .quantidade-item input {
+            width: 40px;
+            text-align: center;
+            border: 1px solid #e2e8f0;
+            border-radius: 4px;
+            padding: 2px;
+        }
+
+        .remover-item {
+            color: var(--destaque);
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+
+        .rodape-carrinho {
+            padding: 20px;
+            border-top: 1px solid #e2e8f0;
+        }
+
+        .total-carrinho {
+            display: flex;
+            justify-content: space-between;
+            font-weight: 700;
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            color: var(--primaria);
+        }
+
+        .botoes-carrinho {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .btn {
+            padding: 12px;
+            border: none;
+            border-radius: var(--raio);
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transicao);
+        }
+
+        .btn-primario {
+            background: var(--primaria);
+            color: white;
+        }
+
+        .btn-primario:hover {
+            background: var(--escura);
+        }
+
+        .btn-secundario {
+            background: #f8f9fa;
+            color: var(--texto);
+        }
+
+        .btn-secundario:hover {
+            background: #e2e8f0;
+        }
+
+        .overlay-carrinho {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 2000;
+            display: none;
+        }
+
+        .overlay-carrinho.ativo {
+            display: block;
+        }
+
+        /* Equipe de DS e PCP */
+        .secao-equipe {
+            padding: 50px 20px;
+            background: #f8f9fa;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .secao-titulo {
+            text-align: center;
+            margin-bottom: 40px;
+            color: #333;
+            font-size: 2rem;
+        }
+
+        .equipe-categoria {
+            margin-bottom: 60px;
+        }
+
+        .categoria-titulo {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #555;
+            font-size: 1.5rem;
+            border-bottom: 2px solid #007bff;
+            padding-bottom: 10px;
+            display: inline-block;
+            margin-left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .equipe-grid {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            flex-wrap: wrap;
+        }
+
+        .membro {
+            text-align: center;
+            max-width: 200px;
+        }
+
+        .foto-bolinha {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: #ddd;
+            margin: 0 auto 15px;
+            overflow: hidden;
+            border: 3px solid #007bff;
+        }
+
+        .foto-bolinha img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .nome {
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 5px;
+            font-size: 1.1rem;
+        }
+
+        .cargo {
+            color: #666;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        .desenvolvedores .foto-bolinha {
+            border-color: #4b3e85;
+        }
+
+        .pcp .foto-bolinha {
+            border-color: #3599dc;
+        }
+
+        /* Estilo do Modal */
+        .conteudo-modal {
+            padding: 15px 0;
+        }
+
+        .historia-sobre {
+            margin-top: 25px;
+        }
+
+        /* Estilos para a central de ajuda */
+        .conteudo-ajuda {
+            max-height: 70vh;
+            overflow-y: auto;
+            padding-right: 10px;
+        }
+
+        .secao-duvidas {
+            margin-bottom: 25px;
+        }
+
+        .duvida-item {
+            margin-bottom: 10px;
+            border: 1px solid #e2e8f0;
+            border-radius: var(--raio);
+            overflow: hidden;
+        }
+
+        .duvida-titulo {
+            color: var(--escura);
+            width: 100%;
+            padding: 15px;
+            background: var(--clara);
+            border: none;
+            text-align: left;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: var(--transicao);
+        }
+
+        .duvida-titulo:hover {
+            background: #e6e6fa;
+        }
+
+        .duvida-titulo i {
+            transition: transform 0.3s;
+        }
+
+        .duvida-titulo.ativo i {
+            transform: rotate(180deg);
+        }
+
+        .duvida-conteudo {
+            padding: 0 15px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .duvida-conteudo.aberto {
+            padding: 15px;
+            max-height: 500px;
+        }
+
+        .opcoes-contato {
+            display: grid;
+            gap: 15px;
+        }
+
+        .opcao-contato {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px;
+            background: var(--clara);
+            border-radius: var(--raio);
+            cursor: pointer;
+            transition: var(--transicao);
+        }
+
+        .opcao-contato:hover {
+            background: #e6e6fa;
+            transform: translateX(5px);
+        }
+
+        .opcao-contato i {
+            font-size: 1.5rem;
+            color: var(--primaria);
+        }
+
+        /* Botão flutuante de ajuda */
+        .botao-ajuda-flutuante {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background: var(--destaque);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            box-shadow: var(--sombra);
+            cursor: pointer;
+            z-index: 1000;
+        }
+
+        .botao-ajuda-flutuante:hover {
+            background: #d93d57;
+            transform: scale(1.1);
+        }
+
+        /* Responsividade */
+        @media (max-width: 992px) {
+            .conteudo-cabecalho {
+                flex-wrap: wrap;
+            }
+            
+            .barra-busca {
+                order: 3;
+                margin: 15px 0 0;
+                max-width: 100%;
+            }
+            
+            .menu-navegacao {
+                flex-wrap: wrap;
+            }
+            
+            .conteudo-banner h1 {
+                font-size: 2rem;
+            }
+            
+            .banner-principal {
+                height: 400px;
+            }
+            
+            .conteudo-banner {
+                left: 5%;
+                right: 5%;
+                text-align: center;
+            }
+
+            .conteudo-sobre {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+            
+            .acoes-sociais {
+                flex-direction: column;
+                gap: 20px;
+            }
+            
+            .grade-produtos {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            }
+            
+            .produto-container {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .botoes-acao {
+                flex-direction: column;
+            }
+            
+            .carrinho-flutuante {
+                width: 100%;
+                right: -100%;
+            }
+            
+            .grupo-campos {
+                grid-template-columns: 1fr;
+            }
+            
+            .opcoes-pagamento {
+                grid-template-columns: 1fr;
+            }
+            
+            .opcoes-entrega {
+                grid-template-columns: 1fr;
+            }
+            
+            /* Central de Ajuda responsiva */
+            .conteudo-ajuda {
+                max-height: 60vh;
+            }
+            
+            .opcoes-contato {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .acoes-cabecalho {
+                gap: 10px;
+            }
+            
+            .acao-cabecalho span {
+                display: none;
+            }
+            
+            .botao-adote-vida span {
+                display: none;
+            }
+            
+            .banner-principal {
+                height: 300px;
+            }
+
+            .secao-sobre {
+                padding: 60px 15px;
+            }
+            
+            .titulo-sobre {
+                font-size: 2rem;
+            }
+            
+            .compromisso-social {
+                padding: 30px 20px;
+            }
+            
+            .conteudo-banner h1 {
+                font-size: 1.5rem;
+            }
+            
+            .conteudo-banner p {
+                font-size: 1rem;
+            }
+            
+            .miniaturas-container {
+                justify-content: center;
+            }
+            
+            /* Botão ajuda mobile */
+            .botao-ajuda-flutuante {
+                bottom: 20px;
+                right: 20px;
+                width: 50px;
+                height: 50px;
+                font-size: 1.2rem;
+            }
+        }
+
+        .hidden {
+            display: none !important;
         }
     </style>
 </head>
@@ -1128,27 +2238,27 @@
             </div>
             
             <div class="acoes-cabecalho">
-                <button class="botao-adote-vida" id="botaoAdoteVida">
+                <button class="botao-adote-vida" id="botaoAdoteVida" onclick="window.location.href='/adote'">
                     <i class="fas fa-heart"></i>
                     <span>Adote Vida</span>
                 </button>
-                <div class="acao-cabecalho" onclick="abrirLogin()">
+                <div id="acaoLogin" class="acao-cabecalho" onclick="abrirLogin()">
                     <i class="far fa-user"></i>
-                    <span>Cadastro/login</span>
-                </div>
-                <div class="acao-cabecalho" style="position: relative;">
-                    <i class="far fa-heart"></i>
-                    <span>Favoritos</span>
+                    <span>Login</span>
                 </div>
                 <div class="acao-cabecalho" style="position: relative;">
                     <i class="fas fa-shopping-cart"></i>
                     <span>Carrinho</span>
                     <div class="contador-carrinho">3</div>
                 </div>
-                <div class="acao-cabecalho" style="position: relative;" onclick="abrirAdmin()" >
+                <div id="painelAdmin" class="acao-cabecalho hidden" style="position: relative;" onclick="abrirAdmin()" >
                     <i class="fas fa-user-md"></i>
                     <span>Painel Administrador</span>
                     <div class="contador-carrinho"></div>
+                </div>
+                <div class="acao-cabecalho hidden" id="botaoLogout" onclick="fazerLogout()">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Sair</span>
                 </div>
             </div>
         </div>
@@ -1185,7 +2295,7 @@
 
     <section class="banner-principal">
         <div class="slide-banner ativo">
-            <img src="static/banner.png" alt="Raçōes PetVida">
+            <img src="{{ url_for('static', filename='Banner-Rações.png') }}" alt="Raçōes PetVida">
             <div class="conteudo-banner">
                 <h1>Rações PetVida - Qualidade Garantida</h1>
                 <p>Alimente seu pet com o melhor, direto da nossa fábrica!</p>
@@ -1215,11 +2325,11 @@
                 <div class="cartao-produto">
                     <span class="etiqueta-produto">NOVO</span>
                     <div class="imagem-produto">
-                        <img src="static/racao-premium-caes.png" alt="Ração Premium Cães">
+                        <img src="{{ url_for('static', filename='petisco_cacho_peq.png') }}" alt="Snacks para Cães pequenos">
                     </div>
                     <div class="info-produto">
-                        <span class="categoria-produto">Cães | Rações</span>
-                        <h3 class="nome-produto">Ração Seca Premium para Cães Adultos - 15kg</h3>
+                        <span class="categoria-produto">Cães | Petiscos</span>
+                        <h3 class="nome-produto">Snacks para Cães pequenos- 15kg</h3>
                         <div class="preco-produto">
                             <span class="preco-atual">R$ 189,90</span>
                             </div>
@@ -1231,7 +2341,7 @@
                 <div class="cartao-produto">
                     <span class="etiqueta-produto">20% OFF</span>
                     <div class="imagem-produto">
-                        <img src="static/petisco-gato.png" alt="Petisco Salmão Gatos">
+                        <img src="{{ url_for('static', filename='petisco_gato_ido.png') }}" alt="Snacks Deliciosos de Salmão para Gatos">
                     </div>
                     <div class="info-produto">
                         <span class="categoria-produto">Gatos | Petiscos</span>
@@ -1247,11 +2357,11 @@
                 
                 <div class="cartao-produto">
                     <div class="imagem-produto">
-                        <img src="static/caminha-cachorro.png" alt="Caminha Dog Premium">
+                        <img src="{{ url_for('static', filename='petisco_gato_adul.png') }}" alt="Snacks Deliciosos de Salmão para Gatos">
                     </div>
                     <div class="info-produto">
-                        <span class="categoria-produto">Acessórios | Cães</span>
-                        <h3 class="nome-produto">Cama Confort Plus para Cães de Médio Porte</h3>
+                        <span class="categoria-produto">Gatos | Petiscos</span>
+                        <h3 class="nome-produto">Snacks Deliciosos de Salmão para Gatos</h3>
                         <div class="preco-produto">
                             <span class="preco-atual">R$ 125,50</span>
                         </div>
@@ -1263,11 +2373,11 @@
                 <div class="cartao-produto">
                     <span class="etiqueta-produto">Bestseller</span>
                     <div class="imagem-produto">
-                        <img src="static/coleira-anti-pulgas.png" alt="Coleira Antipulgas">
+                        <img src="{{ url_for('static', filename='caes_adulto.png') }}" alt="Ração Premium para Cães Adultos">
                     </div>
                     <div class="info-produto">
-                        <span class="categoria-produto">Farmácia | Cães & Gatos</span>
-                        <h3 class="nome-produto">Coleira Antipulgas e Carrapatos (até 8 meses)</h3>
+                        <span class="categoria-produto">Rações | Cães</span>
+                        <h3 class="nome-produto">Ração Premium para Cães Adultos</h3>
                         <div class="preco-produto">
                             <span class="preco-atual">R$ 79,90</span>
                         </div>
@@ -1279,105 +2389,171 @@
         </div>
     </section>
 
-    <section class="secao-adocao">
-        <div class="container-adocao">
-            <div class="cabecalho-adocao">
-                <h2 class="titulo-adocao"><i class="fas fa-heartbeat"></i> Nossos Pets para Adoção</h2>
-                <p class="subtitulo-adocao">Dê um lar cheio de amor para um pet resgatado. Conheça alguns dos nossos amigos em busca de uma família.</p>
-            </div>
-            
-            <div class="grade-pets">
-                <div class="cartao-pet">
-                    <div class="imagem-pet">
-                        <img src="static/pet-dog.jpg" alt="Pet para Adoção: Max">
-                    </div>
-                    <div class="info-pet">
-                        <h3 class="nome-pet">Max</h3>
-                        <div class="detalhes-pet">
-                            <span class="detalhe-pet">Cachorro</span>
-                            <span class="detalhe-pet">Macho</span>
-                            <span class="detalhe-pet">Jovem</span>
-                        </div>
-                        <p class="descricao-pet">Max é brincalhão, adora correr e precisa de um quintal grande. Ideal para famílias ativas.</p>
-                        <button class="botao-adotar"><i class="fas fa-paw"></i> Quero Adotar Max</button>
-                    </div>
-                </div>
-
-                <div class="cartao-pet">
-                    <div class="imagem-pet">
-                        <img src="static/pet-cat.jpg" alt="Pet para Adoção: Luna">
-                    </div>
-                    <div class="info-pet">
-                        <h3 class="nome-pet">Luna</h3>
-                        <div class="detalhes-pet">
-                            <span class="detalhe-pet">Gato</span>
-                            <span class="detalhe-pet">Fêmea</span>
-                            <span class="detalhe-pet">Adulto</span>
-                        </div>
-                        <p class="descricao-pet">Luna é calma e carinhosa. Perfeita para apartamentos e gosta de passar o dia dormindo ao sol.</p>
-                        <button class="botao-adotar"><i class="fas fa-paw"></i> Quero Adotar Luna</button>
-                    </div>
-                </div>
-
-                <div class="cartao-pet">
-                    <div class="imagem-pet">
-                        <img src="static/pet-parrot.jpg" alt="Pet para Adoção: Chico">
-                    </div>
-                    <div class="info-pet">
-                        <h3 class="nome-pet">Chico</h3>
-                        <div class="detalhes-pet">
-                            <span class="detalhe-pet">Pássaro</span>
-                            <span class="detalhe-pet">Macho</span>
-                            <span class="detalhe-pet">Adulto</span>
-                        </div>
-                        <p class="descricao-pet">Chico é um periquito tagarela e sociável. Requer um ambiente com interação constante e seguro.</p>
-                        <button class="botao-adotar"><i class="fas fa-paw"></i> Quero Adotar Chico</button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="chamada-adocao">
-                <a href="#" class="botao-chamada">
-                    <i class="fas fa-list-ul"></i> Ver todos os animais para adoção
-                </a>
-            </div>
-        </div>
-    </section>
-
+<!-- Serviços -->
     <section class="secao-servicos">
-        <h2 class="titulo-secao text-center mb-5" style="color: var(--primaria);">Nossos Serviços Pet</h2>
-        <div class="grade-servicos">
-            <div class="cartao-servico">
-                <i class="fas fa-cut icone-servico"></i>
-                <h3 class="titulo-servico">Banho e Tosa</h3>
-                <p class="descricao-servico">Profissionais qualificados para deixar seu pet limpo, cheiroso e estiloso.</p>
+        <div class="container-sobre">
+            <div class="cabecalho-sobre">
+                <h2 class="titulo-sobre">Sobre a Pet Vida</h2>
+                <p class="subtitulo-sobre">Há mais de 10 anos cuidando do seu pet com amor e qualidade</p>
             </div>
-            <div class="cartao-servico">
-                <i class="fas fa-user-md icone-servico"></i>
-                <h3 class="titulo-servico">Clínica Veterinária</h3>
-                <p class="descricao-servico">Consultas, vacinas e emergências com o cuidado que seu melhor amigo merece.</p>
+            <div class="conteudo-sobre">
+                <div class="texto-sobre">
+                    <div class="missao-sobre">
+                        <h3><i class="fas fa-heart"></i> Nossa Missão</h3>
+                        <p>Oferecer produtos de alta qualidade para pets, promovendo saúde, bem-estar e felicidade aos animais e tranquilidade aos seus tutores.</p>
+                    </div>
+                    <div class="valores-sobre">
+                        <h3><i class="fas fa-star"></i> Nossos Valores</h3>
+                        <ul>
+                            <li><strong>Qualidade:</strong> Produtos testados e aprovados por veterinários</li>
+                            <li><strong>Sustentabilidade:</strong> Preocupação com o meio ambiente</li>
+                            <li><strong>Amor pelos animais:</strong> Cada produto é feito com carinho</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="compromisso-social">
+                    <h3><i class="fas fa-paw"></i> Nosso Compromisso Social</h3>
+                    <p>A Pet Vida destina parte dos seus lucros para projetos de proteção animal, incluindo adoção responsável.</p>
+                    <div class="acoes-sociais">
+                        <div class="acao-social">
+                            <i class="fas fa-handshake"></i>
+                            <span>Adoção responsável</span>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="cartao-servico">
-                <i class="fas fa-hotel icone-servico"></i>
-                <h3 class="titulo-servico">Hotel Pet</h3>
-                <p class="descricao-servico">Hospedagem segura e divertida com monitoramento 24 horas.</p>
-            </div>
-            <div class="cartao-servico">
-                <i class="fas fa-bus icone-servico"></i>
-                <h3 class="titulo-servico">Pet Móvel</h3>
-                <p class="descricao-servico">Serviço de busca e entrega com conforto e segurança para o seu pet.</p>
+
+            <h2 class="titulo-secao">Por que Escolher a PetVida?</h2>
+            <div class="grade-servicos">
+                <div class="cartao-servico">
+                    <div class="icone-servico">
+                        <i class="fas fa-award"></i>
+                    </div>
+                    <h3 class="titulo-servico">Qualidade Garantida</h3>
+                    <p class="descricao-servico">Nossas rações são produzidas com os melhores ingredientes e rigoroso controle de qualidade.</p>
+                </div>
+                <div class="cartao-servico">
+                    <div class="icone-servico">
+                        <i class="fas fa-tags"></i>
+                    </div>
+                    <h3 class="titulo-servico">Preço Direto de Fábrica</h3>
+                    <p class="descricao-servico">Compre diretamente do fabricante e economize sem abrir mão da qualidade.</p>
+                </div>
+                <div class="cartao-servico">
+                    <div class="icone-servico">
+                        <i class="fas fa-truck"></i>
+                    </div>
+                    <h3 class="titulo-servico">Entrega Rápida</h3>
+                    <p class="descricao-servico">Entregamos em até 24h na região metropolitana e 3 dias para todo o Brasil.</p>
+                </div>
+                <div class="cartao-servico">
+                    <div class="icone-servico">
+                        <i class="fas fa-heart"></i>
+                    </div>
+                    <h3 class="titulo-servico">Compromisso Social</h3>
+                    <p class="descricao-servico">Parte do nosso lucro é revertido para projetos de proteção animal.</p>
+                </div>
             </div>
         </div>
     </section>
 
-    <section class="secao-newsletter">
-        <div class="conteudo-newsletter">
-            <h2 class="titulo-newsletter">Assine nossa Newsletter!</h2>
-            <p>Receba as melhores ofertas, novidades e dicas de cuidado para seu pet.</p>
-            <form class="formulario-newsletter">
-                <input type="email" class="entrada-newsletter" placeholder="Digite seu melhor e-mail" required>
-                <button type="submit" class="botao-newsletter"><i class="fas fa-paper-plane"></i></button>
-            </form>
+    <!-- Equipe -->
+    <section class="secao-equipe">
+        <div class="container">
+            <h2 class="secao-titulo">Nossa Equipe</h2>
+            
+            <!-- DESENVOLVEDORES -->
+            <div class="equipe-categoria desenvolvedores">
+                <h3 class="categoria-titulo">Desenvolvimento</h3>
+                <div class="equipe-grid">
+                    <div class="membro">
+                        <div class="foto-bolinha">
+                            <img src="static/Mariana.jpeg" alt="Mariana">
+                        </div>
+                        <div class="nome">Mariana R. Patricio</div>
+                        <div class="cargo">Proprietário da Mary's Gráfica<br>Desenvolvedora Front-end</div>
+                    </div>
+
+                    <div class="membro">
+                        <div class="foto-bolinha">
+                            <img src="static/Gabriel.jpeg" alt="Gabriel">
+                        </div>
+                        <div class="nome">Gabriel F. Fortunato</div>
+                        <div class="cargo">Estudante de DS<br>Desenvolvedor Back-end</div>
+                    </div>
+                    
+                    <div class="membro">
+                        <div class="foto-bolinha">
+                            <img src="static/Lais.jpeg" alt="Lais">
+                        </div>
+                        <div class="nome">Lais V. Meris</div>
+                        <div class="cargo">Estudante de DS<br>Desenvolvedora Back-end</div>
+                    </div>
+
+                    <div class="membro">
+                        <div class="foto-bolinha">
+                            <img src="static/Wellingtom.jpeg" alt="Wellingtom">
+                        </div>
+                        <div class="nome">Wellingtom</div>
+                        <div class="cargo">Estudante de DS<br>Desenvolvedor de Modelagem</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- EQUIPE PCP -->
+            <div class="equipe-categoria pcp">
+                <h3 class="categoria-titulo">Equipe PCP</h3>
+                <div class="equipe-grid">
+
+                    <div class="membro">
+                        <div class="foto-bolinha">
+                            <img src="static/Francisco.jpeg" alt="Membro PCP">
+                        </div>
+                        <div class="nome">Franciele</div>
+                        <div class="cargo">Controle de produção</div>
+                    </div> 
+
+                    <div class="membro">
+                        <div class="foto-bolinha">
+                            <img src="static/Franciele.jpeg" alt="Membro PCP">
+                        </div>
+                        <div class="nome">Francisco</div>
+                        <div class="cargo">Controle de produção</div>
+                    </div> 
+
+                    <div class="membro">
+                        <div class="foto-bolinha">
+                            <img src="static/Guilherme.jpeg" alt="Membro PCP">
+                        </div>
+                        <div class="nome">Guilherme</div>
+                        <div class="cargo">Controle de produção</div>
+                    </div>
+
+                    <div class="membro">
+                        <div class="foto-bolinha">
+                            <img src="static/Gustavo.jpeg" alt="Membro PCP">
+                        </div>
+                        <div class="nome">Gustavo</div>
+                        <div class="cargo">Controle de produção</div>
+                    </div>
+
+                    <div class="membro">
+                        <div class="foto-bolinha">
+                            <img src="static/Sabrina.jpeg" alt="Membro PCP">
+                        </div>
+                        <div class="nome">Sabrina</div>
+                        <div class="cargo">Controle de produção</div>
+                    </div>
+
+                    <div class="membro">
+                        <div class="foto-bolinha">
+                            <img src="static/Sara.jpeg" alt="Membro PCP">
+                        </div>
+                        <div class="nome">Sara</div>
+                        <div class="cargo">Controle de produção</div>
+                    </div>                                         
+                </div>
+            </div>
         </div>
     </section>
 
@@ -1491,7 +2667,7 @@
 
             <!-- FORMULÁRIO DE LOGIN -->
             <div id="formLogin" style="display: none;">
-                <form id="loginForm" action="/Login" method="post">
+                <form id="loginForm" action="/login" method="post">
                     <div class="form-group">
                         <label for="loginEmail">E-mail</label>
                         <input type="email" class="form-control" id="loginEmail" name="loginEmail" required>
@@ -1520,371 +2696,247 @@
     </div>
 
     <script>
-        // --- FUNÇÃO REMOVIDA: mostrarCargoFuncionario() ---
-        // Esta função foi completamente removida pois não é mais necessária
 
-        function abrirAdmin() {
-            window.location.href = '/admin_page';
-        }
+function abrirAdmin() {
+    window.location.href = '/admin_page';
+}
 
-        // --- Funções do Modal ---
-        function abrirLogin() {
-            document.getElementById('modalLogin').style.display = 'flex';
-            alternarFormulario('cadastro');
-        }
+/* ================================
+   MODAL LOGIN / CADASTRO
+================================ */
+function abrirLogin() {
+    document.getElementById('modalLogin').style.display = 'flex';
+    alternarFormulario('login');
+}
 
-        function fecharModal(id) {
-            document.getElementById(id).style.display = 'none';
-        }
+function fecharModal(id) {
+    document.getElementById(id).style.display = 'none';
+}
 
-        function alternarFormulario(tipo) {
-            const formCadastro = document.getElementById('formCadastro');
-            const formLogin = document.getElementById('formLogin');
-            const modalTitle = document.getElementById('modalTitle');
+function alternarFormulario(tipo) {
+    const formCadastro = document.getElementById('formCadastro');
+    const formLogin = document.getElementById('formLogin');
+    const modalTitle = document.getElementById('modalTitle');
 
-            if (tipo === 'cadastro') {
-                formCadastro.style.display = 'block';
-                formLogin.style.display = 'none';
-                modalTitle.textContent = 'Crie sua Conta na Pet Vida';
-            } else if (tipo === 'login') {
-                formCadastro.style.display = 'none';
-                formLogin.style.display = 'block';
-                modalTitle.textContent = 'Acesse sua Conta';
-            }
-            
-            // Limpa mensagens e campos de erro ao alternar
-            document.getElementById('cadastroSuccess').style.display = 'none';
-            document.getElementById('loginSuccess').style.display = 'none';
-            document.querySelectorAll('.error-msg').forEach(el => el.textContent = '');
-            document.querySelectorAll('.form-control').forEach(el => el.classList.remove('error'));
-        }
-
-        // Fechar modal clicando fora
-        window.onclick = function(event) {
-            const modal = document.getElementById('modalLogin');
-            if (event.target === modal) {
-                fecharModal('modalLogin');
-            }
-        }
-
-        // --- Simulação de Validação e Envio ---
-        function simularProcessamento(btn, successMsgId, callback) {
-            const originalText = btn.innerHTML;
-            btn.disabled = true;
-            btn.innerHTML = 'Processando... <span class="spinner"></span>';
-            document.getElementById(successMsgId).style.display = 'none';
-
-            setTimeout(() => {
-                btn.innerHTML = originalText;
-                btn.disabled = false;
-                callback();
-            }, 1500);
-        }
-
-        // --- FORMULÁRIO DE CADASTRO SIMPLIFICADO ---
-        document.getElementById('cadastroForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const btn = document.getElementById('btnCadastro');
-
-            // Limpa erros anteriores
-            document.querySelectorAll('.error-msg').forEach(el => el.textContent = '');
-            document.querySelectorAll('.form-control').forEach(el => el.classList.remove('error'));
-            
-            let isValid = true;
-
-            // Validação de campos simples
-            const nome = document.getElementById('nome');
-            if (nome.value.trim() === '') {
-                document.getElementById('nomeError').textContent = 'O nome é obrigatório.';
-                nome.classList.add('error');
-                isValid = false;
-            }
-
-            const email = document.getElementById('email');
-            if (email.value.trim() === '' || !email.value.includes('@')) {
-                document.getElementById('emailError').textContent = 'E-mail inválido.';
-                email.classList.add('error');
-                isValid = false;
-            }
-
-            const senha = document.getElementById('senha');
-            if (senha.value.length < 6) {
-                document.getElementById('senhaError').textContent = 'A senha deve ter no mínimo 6 caracteres.';
-                senha.classList.add('error');
-                isValid = false;
-            }
-
-            // VALIDAÇÕES DE TIPO DE USUÁRIO E CARGO FORAM REMOVIDAS
-
-            if (isValid) {
-                simularProcessamento(btn, 'cadastroSuccess', () => {
-                    document.getElementById('cadastroSuccess').textContent = 'Cadastro realizado com sucesso! Redirecionando...';
-                    document.getElementById('cadastroSuccess').style.display = 'block';
-                    setTimeout(() => {
-                        document.getElementById('cadastroForm').submit(); // Envia o formulário
-
-                        console.log("Usuário Cadastrado:", {
-                            nome: nome.value,
-                            email: email.value
-                            // Campos tipo e cargo foram removidos
-                        });
-                    }, 1000);
-                });
-            }
-        });
-
-        // --- FORMULÁRIO DE LOGIN (mantido inalterado) ---
-        document.getElementById('loginForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const btn = document.getElementById('btnLogin');
-            
-            document.querySelectorAll('.error-msg').forEach(el => el.textContent = '');
-            document.querySelectorAll('.form-control').forEach(el => el.classList.remove('error'));
-
-            let isValid = true;
-            const loginEmail = document.getElementById('loginEmail');
-            const loginSenha = document.getElementById('loginSenha');
-
-            if (loginEmail.value.trim() === '' || !loginEmail.value.includes('@')) {
-                document.getElementById('loginEmailError').textContent = 'E-mail inválido.';
-                loginEmail.classList.add('error');
-                isValid = false;
-            }
-
-            if (loginSenha.value.length < 6) {
-                document.getElementById('loginSenhaError').textContent = 'Senha inválida.';
-                loginSenha.classList.add('error');
-                isValid = false;
-            }
-
-            if (isValid) {
-                simularProcessamento(btn, 'loginSuccess', () => {
-                    if (loginSenha.value === '123456') {
-                        document.getElementById('loginSuccess').textContent = 'Login efetuado com sucesso! Bem-vindo(a).';
-                        document.getElementById('loginSuccess').style.display = 'block';
-                        setTimeout(() => fecharModal('modalLogin'), 1000);
-                    } else {
-                        document.getElementById('loginSenhaError').textContent = 'E-mail ou senha incorretos.';
-                        loginEmail.classList.add('error');
-                        loginSenha.classList.add('error');
-                    }
-                });
-            }
-        });
-
-    </script>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            
-            // --- LÓGICA DO TELEFONE ---
-            const inputTelefone = document.getElementById('telefone');
-
-            if(inputTelefone) {
-                inputTelefone.addEventListener('input', function(e) {
-                    let v = e.target.value;
-                    v = v.replace(/\D/g, "");
-                    if (v.length > 11) v = v.slice(0, 11);
-                    v = v.replace(/^(\d{2})(\d)/g, "($1) $2");
-                    v = v.replace(/(\d)(\d{4})$/, "$1-$2");
-                    e.target.value = v;
-                });
-            }
-
-            // --- LÓGICA DA IDADE ---
-            const inputIdade = document.getElementById('idade');
-
-            if(inputIdade) {
-                inputIdade.addEventListener('keydown', function(e) {
-                    if ([46, 8, 9, 27, 13, 110].indexOf(e.keyCode) !== -1 ||
-                        (e.keyCode === 65 && (e.ctrlKey === true || e.metaKey === true)) || 
-                        (e.keyCode >= 35 && e.keyCode <= 40)) {
-                         return;
-                    }
-                    if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
-                        e.preventDefault();
-                    }
-                });
-
-                inputIdade.addEventListener('input', function(e) {
-                    let valor = e.target.value;
-                    valor = valor.replace(/[^0-9]/g, '');
-                    if (valor === '') return;
-                    let numero = parseInt(valor);
-                    if (numero > 100) {
-                        e.target.value = 100;
-                    } else if (numero < 0) {
-                        e.target.value = 0;
-                    }
-                });
-            }
-        });
-    </script>
-<script>
-  // Verifica o status de admin do usuário ao carregar a página
-  function verificarStatusAdmin() {
-    const tipoUsuario = localStorage.getItem('tipoUsuario');
-    const painelAdmin = document.getElementById('painelAdmin');
-    
-    if (painelAdmin) {
-      if (tipoUsuario === 'admin') {
-        painelAdmin.classList.remove('hidden');
-      } else {
-        painelAdmin.classList.add('hidden');
-      }
+    if (tipo === 'cadastro') {
+        formCadastro.style.display = 'block';
+        formLogin.style.display = 'none';
+        modalTitle.textContent = 'Crie sua Conta na Pet Vida';
+    } else {
+        formCadastro.style.display = 'none';
+        formLogin.style.display = 'block';
+        modalTitle.textContent = 'Acesse sua Conta';
     }
-  }
 
-  // Função para registrar login
-  function registrarLogin(tipo, email) {
-    localStorage.setItem('tipoUsuario', tipo);
-    localStorage.setItem('emailUsuario', email);
-    verificarStatusAdmin();
-  }
+    // Limpa mensagens de erro
+    document.querySelectorAll('.error-msg').forEach(el => el.textContent = '');
+    document.querySelectorAll('.form-control').forEach(el => el.classList.remove('error'));
+}
 
-  // Função para fazer logout
-  function fazerLogout() {
-    localStorage.removeItem('tipoUsuario');
-    localStorage.removeItem('emailUsuario');
-    verificarStatusAdmin();
-    // Redireciona ou atualiza a página se necessário
-    window.location.reload();
-  }
+/* Fecha modal clicando fora */
+window.onclick = function(event) {
+    const modal = document.getElementById('modalLogin');
+    if (event.target === modal) {
+        fecharModal('modalLogin');
+    }
+};
 
-  // Executa ao carregar a página
-  document.addEventListener('DOMContentLoaded', function() {
-    verificarStatusAdmin();
-  });
+/* Animação padrão */
+function simularProcessamento(btn, successId, callback) {
+    const original = btn.innerHTML;
+    btn.disabled = true;
+    btn.innerHTML = 'Processando... <span class="spinner"></span>';
 
-  // Modifica o formulário de login para fazer requisição real ao servidor
-  const loginForm = document.getElementById('loginForm');
-  if (loginForm) {
-    loginForm.addEventListener('submit', async function(e) {
-      e.preventDefault();
-      const btn = document.getElementById('btnLogin');
-      const loginEmail = document.getElementById('loginEmail');
-      const loginSenha = document.getElementById('loginSenha');
+    setTimeout(() => {
+        btn.disabled = false;
+        btn.innerHTML = original;
+        callback();
+    }, 1200);
+}
 
-      document.querySelectorAll('.error-msg').forEach(el => el.textContent = '');
-      document.querySelectorAll('.form-control').forEach(el => el.classList.remove('error'));
+/* ===================================
+   CADASTRO – ENVIA DIRETO PARA "/"
+=================================== */
+document.getElementById('cadastroForm').addEventListener('submit', function(e) {
+    e.preventDefault();
 
-      let isValid = true;
+    const btn = document.getElementById('btnCadastro');
 
-      if (loginEmail.value.trim() === '' || !loginEmail.value.includes('@')) {
-        document.getElementById('loginEmailError').textContent = 'E-mail inválido.';
+    document.querySelectorAll('.error-msg').forEach(el => el.textContent = '');
+    document.querySelectorAll('.form-control').forEach(el => el.classList.remove('error'));
+
+    let ok = true;
+
+    const nome = document.getElementById('nome');
+    const email = document.getElementById('email');
+    const senha = document.getElementById('senha');
+
+    if (nome.value.trim() === '') {
+        nome.classList.add('error');
+        nomeError.textContent = 'O nome é obrigatório.';
+        ok = false;
+    }
+
+    if (!email.value.includes('@')) {
+        email.classList.add('error');
+        emailError.textContent = 'E-mail inválido.';
+        ok = false;
+    }
+
+    if (senha.value.length < 6) {
+        senha.classList.add('error');
+        senhaError.textContent = 'A senha deve ter no mínimo 6 caracteres.';
+        ok = false;
+    }
+
+    if (!ok) return;
+
+    simularProcessamento(btn, 'cadastroSuccess', () => {
+        cadastroSuccess.textContent = 'Cadastro realizado! Redirecionando...';
+        cadastroSuccess.style.display = 'block';
+
+        setTimeout(() => {
+            document.getElementById('cadastroForm').submit();
+            atualizarInterfaceUsuario();
+        }, 500);
+    });
+});
+
+/* ===================================
+   LOGIN – AGORA 100% COMPATÍVEL
+   COM app.py E login_model.py
+=================================== */
+document.getElementById('loginForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+
+    const btn = document.getElementById('btnLogin');
+    const loginEmail = document.getElementById('loginEmail');
+    const loginSenha = document.getElementById('loginSenha');
+
+    document.querySelectorAll('.error-msg').forEach(el => el.textContent = '');
+    document.querySelectorAll('.form-control').forEach(el => el.classList.remove('error'));
+
+    let ok = true;
+
+    if (!loginEmail.value.includes('@')) {
+        loginEmailError.textContent = 'E-mail inválido.';
         loginEmail.classList.add('error');
-        isValid = false;
-      }
+        ok = false;
+    }
 
-      if (loginSenha.value.length < 6) {
-        document.getElementById('loginSenhaError').textContent = 'Senha inválida.';
+    if (loginSenha.value.length < 6) {
+        loginSenhaError.textContent = 'Senha inválida.';
         loginSenha.classList.add('error');
-        isValid = false;
-      }
+        ok = false;
+    }
 
-      if (isValid) {
-        // Simula processamento
-        const originalText = btn.innerHTML;
-        btn.disabled = true;
-        btn.innerHTML = 'Processando... <span class="spinner"></span>';
-        document.getElementById('loginSuccess').style.display = 'none';
+    if (!ok) return;
 
+    simularProcessamento(btn, 'loginSuccess', async () => {
         try {
-          // FAZ REQUISIÇÃO REAL PARA O SERVIDOR
-          const response = await fetch('/login', {  // Ajuste a URL conforme sua rota
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/x-www-form-urlencoded',
-            },
-            body: new URLSearchParams({
-              Email: loginEmail.value,
-              Senha: loginSenha.value
-            })
-          });
 
-          const data = await response.json();
-          
-          btn.innerHTML = originalText;
-          btn.disabled = false;
+            const response = await fetch("/login", {
+                method: "POST",
+                body: new URLSearchParams({
+                    loginEmail: loginEmail.value,
+                    loginSenha: loginSenha.value
+                })
+            });
 
-          if (response.ok) {
-            // Login bem-sucedido
-            document.getElementById('loginSuccess').textContent = data.mensagem || 'Login efetuado com sucesso! Bem-vindo(a).';
-            document.getElementById('loginSuccess').style.display = 'block';
-            
-            // Registra o login com o tipo retornado pelo servidor
-            registrarLogin(data.tipo || 'usuario', loginEmail.value);
-            
-            setTimeout(() => {
-              fecharModal('modalLogin');
-              // Recarrega a página para atualizar o cabeçalho
-              window.location.reload();
-            }, 1000);
-          } else {
-            // Erro no login
-            document.getElementById('loginSenhaError').textContent = data.erro || 'E-mail ou senha incorretos.';
+            /* Se o login for bem-sucedido o Flask redireciona */
+            if (response.redirected) {
+                const tipo = window.tipoUsuarioBackend || "usuario";
+                registrarLogin(tipo, loginEmail.value);
+                window.location.href = response.url;
+                return;
+            }
+
+            /* Se não redirecionar, voltou o HTML com mensagem de erro */
+            loginSenhaError.textContent = "Email ou senha inválidos.";
+            loginEmail.classList.add("error");
+            loginSenha.classList.add("error");
+
+        } catch (e) {
+            loginSenhaError.textContent = "Erro ao conectar ao servidor.";
             loginEmail.classList.add('error');
             loginSenha.classList.add('error');
-          }
-        } catch (error) {
-          // Erro na requisição
-          btn.innerHTML = originalText;
-          btn.disabled = false;
-          document.getElementById('loginSenhaError').textContent = 'Erro ao conectar com o servidor.';
-          console.error('Erro:', error);
         }
-      }
     });
-  }
+});
 
-  // Adiciona botão de logout (opcional)
-  function adicionarBotaoLogout() {
-    const tipoUsuario = localStorage.getItem('tipoUsuario');
-    const acoesCabecalho = document.querySelector('.acoes-cabecalho');
-    
-    if (tipoUsuario && acoesCabecalho) {
-      // Remove botão de logout existente
-      const botaoLogoutExistente = document.getElementById('botaoLogout');
-      if (botaoLogoutExistente) {
-        botaoLogoutExistente.remove();
-      }
-      
-      // Adiciona botão de logout
-      const botaoLogout = document.createElement('div');
-      botaoLogout.className = 'acao-cabecalho';
-      botaoLogout.id = 'botaoLogout';
-      botaoLogout.onclick = fazerLogout;
-      botaoLogout.innerHTML = `
-        <i class="fas fa-sign-out-alt"></i>
-        <span>Sair</span>
-      `;
-      acoesCabecalho.appendChild(botaoLogout);
+/* =============================
+   TELEFONE / IDADE
+============================= */
+document.addEventListener("DOMContentLoaded", () => {
+
+    const tel = document.getElementById('telefone');
+    if (tel) {
+        tel.addEventListener('input', function(e) {
+            let v = e.target.value.replace(/\D/g, '');
+            if (v.length > 11) v = v.slice(0, 11);
+            v = v.replace(/^(\d{2})(\d)/g, "($1) $2");
+            v = v.replace(/(\d)(\d{4})$/, "$1-$2");
+            e.target.value = v;
+        });
     }
-  }
 
-  // Modifica a função registrarLogin para incluir botão de logout
-  function registrarLogin(tipo, email) {
-    localStorage.setItem('tipoUsuario', tipo);
-    localStorage.setItem('emailUsuario', email);
-    verificarStatusAdmin();
-    adicionarBotaoLogout();
-  }
-
-  // Atualiza a função verificarStatusAdmin
-  function verificarStatusAdmin() {
-    const tipoUsuario = localStorage.getItem('tipoUsuario');
-    const painelAdmin = document.getElementById('painelAdmin');
-    
-    if (painelAdmin) {
-      if (tipoUsuario === 'admin') {
-        painelAdmin.classList.remove('hidden');
-      } else {
-        painelAdmin.classList.add('hidden');
-      }
+    const idade = document.getElementById('idade');
+    if (idade) {
+        idade.addEventListener('input', function(e) {
+            let valor = e.target.value.replace(/\D/g, '');
+            if (valor > 100) valor = 100;
+            idade.value = valor;
+        });
     }
-    
-    adicionarBotaoLogout();
-  }
+});
+
+
+/* Mostrar/ocultar Painel Admin e Logout */
+function atualizarInterfaceUsuario() {
+    const tipo = localStorage.getItem("tipoUsuario");
+    const painel = document.getElementById("painelAdmin");
+    const botaoLogout = document.getElementById("botaoLogout");
+    const acaoLogin = document.getElementById("acaoLogin");
+
+    // Mostrar Painel Admin somente para admin
+    if (painel) {
+        if (tipo === "admin") painel.classList.remove("hidden");
+        else painel.classList.add("hidden");
+    }
+
+    // Mostrar botão de Logout se estiver logado
+    if (botaoLogout) {
+        if (tipo) botaoLogout.classList.remove("hidden");
+        else botaoLogout.classList.add("hidden");
+    }
+
+    // Esconder "Cadastre-se / Login" se já estiver logado
+    if (acaoLogin) {
+        if (tipo) acaoLogin.classList.add("hidden");
+        else acaoLogin.classList.remove("hidden");
+    }
+}
+
+/* Registrar login após sucesso */
+function registrarLogin(tipo, email) {
+    localStorage.setItem("tipoUsuario", tipo);
+    localStorage.setItem("emailUsuario", email);
+    atualizarInterfaceUsuario();
+}
+
+/* Logout real */
+function fazerLogout() {
+    localStorage.removeItem("tipoUsuario");
+    localStorage.removeItem("emailUsuario");
+
+    atualizarInterfaceUsuario();
+
+    // Recarrega para atualizar tudo
+    window.location.reload();
+}
+
+/* Carrega quando a página abrir */
+document.addEventListener("DOMContentLoaded", atualizarInterfaceUsuario);
 </script>
 </body>
 </html>

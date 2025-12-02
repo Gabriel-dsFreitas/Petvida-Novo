@@ -4,7 +4,7 @@ import os
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(ROOT)
 
-from flask import Flask, render_template, request, redirect, jsonify
+from flask import Flask, render_template, request, redirect, jsonify, session
 
 from model.conexao_model import conexao
 from model.cadastro_model import salvar_cadastro
@@ -35,9 +35,13 @@ cursor = conectar.cursor()
 
 current_dir = os.path.dirname(os.path.abspath(__file__))
 template_dir = os.path.join(current_dir, '..', 'view', 'templates')
+static_dir   = os.path.join(current_dir, '..', 'view', 'static')
 
-app = Flask(__name__, template_folder=template_dir)
+app = Flask(__name__, 
+            template_folder=template_dir,
+            static_folder=static_dir)
 
+app.secret_key = "af6897b7-2ec0-4e39-a9c6-fd92896a042a"
 
 # ==========================================================
 # ROTAS PRINCIPAIS
@@ -51,18 +55,24 @@ def home():
 def s_cadastro():
     resultado_cadastro = salvar_cadastro()
     if "sucesso" in resultado_cadastro.lower():
+        session['tipoUsuario'] = "usuario" 
+        session['emailUsuario'] = request.form.get("email")
         return redirect('/')
     else:
         return render_template('redeAmigo.html', mensagem_erro=resultado_cadastro)
 
 
-@app.route("/Login", methods=['POST'])
+@app.route("/login", methods=['POST'])
 def a_login():
-    resultado_login = acessar_login()
-    if "sucesso" in resultado_login.lower():
+    resposta, status = acessar_login()  
+
+    if resposta.get("sucesso"):
+        session['tipoUsuario'] = resposta.get("tipo") 
+        session['emailUsuario'] = request.form.get("loginEmail")
         return redirect('/')
-    else:
-        return render_template('redeAmigo.html', mensagem_erro=resultado_login)
+    
+    return render_template('redeAmigo.html', mensagem_erro=resposta.get("erro"))
+
 
 
 # ==========================================================
@@ -273,6 +283,12 @@ def editar_funcionario(id_funcionario):
 def deletar_funcionario(id_funcionario):
     excluir_funcionario(id_funcionario)
     return redirect('/admin_page/colaboradores')
+
+@app.route('/adote')
+def adote():    
+    return render_template('adote_vida.html')
+
+
 
 
 # ==========================================================

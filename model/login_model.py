@@ -2,52 +2,40 @@ from flask import request, jsonify
 from model.conexao_model import conexao
 
 def acessar_login():
-    email = request.form.get('Email')
-    senha = request.form.get('Senha')
+    email = request.form.get('loginEmail')
+    senha = request.form.get('loginSenha')
 
     if not email or not senha:
-        return jsonify({"erro": "Email e senha são obrigatórios"}), 400
+        return {"erro": "Email e senha são obrigatórios", "sucesso": False}, 400
 
     try:
         cursor = conexao.cursor(dictionary=True)
-        
-        # Primeiro verifica na tabela adm (administradores)
-        sql_adm = "SELECT email, senha FROM adm WHERE email = %s AND senha = %s"
-        cursor.execute(sql_adm, (email, senha))
-        resultado_adm = cursor.fetchone()
-        
-        if resultado_adm:
-            return jsonify({
-                "mensagem": "Login de administrador realizado com sucesso",
-                "tipo": "admin"
-            }), 200
-        
-        # Se não for admin, verifica na tabela funcionario
-        sql_funcionario = "SELECT email, senha FROM funcionario WHERE email = %s AND senha = %s"
-        cursor.execute(sql_funcionario, (email, senha))
-        resultado_funcionario = cursor.fetchone()
-        
-        if resultado_funcionario:
-            return jsonify({
-                "mensagem": "Login de funcionário realizado com sucesso",
-                "tipo": "funcionario"
-            }), 200
-        
-        # Se não for funcionário, verifica na tabela usuario (clientes)
-        sql_usuario = "SELECT email, senha FROM usuario WHERE email = %s AND senha = %s"
-        cursor.execute(sql_usuario, (email, senha))
-        resultado_usuario = cursor.fetchone()
-        
-        if resultado_usuario:
-            return jsonify({
-                "mensagem": "Login de cliente realizado com sucesso",
-                "tipo": "usuario"
-            }), 200
-        else:
-            return jsonify({"erro": "Email ou senha incorretos"}), 401
+
+        # Lista de tabelas e o tipo correspondente
+        tabelas = [
+            ("adm", "admin"),
+            ("funcionario", "funcionario"),
+            ("usuario", "usuario")
+        ]
+
+        # Verificação unificada
+        for tabela, tipo in tabelas:
+            query = f"SELECT email FROM {tabela} WHERE email = %s AND senha = %s LIMIT 1"
+            cursor.execute(query, (email, senha))
+            resultado = cursor.fetchone()
+ 
+            if resultado:
+                return {
+                    "mensagem": f"Login de {tipo} realizado com sucesso",
+                    "tipo": tipo,
+                    "sucesso": True
+                }, 200
+
+        # Se nenhuma tabela encontrou o usuário
+        return {"erro": "Email ou senha incorretos", "sucesso": False}, 401
 
     except Exception as e:
-        return jsonify({"erro": str(e)}), 500
+        return {"erro": f"Erro interno: {str(e)}", "sucesso": False}, 500
 
     finally:
         if 'cursor' in locals():
