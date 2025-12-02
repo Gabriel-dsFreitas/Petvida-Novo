@@ -8,7 +8,7 @@ def get_funcionarios():
         funcionarios = cursor.fetchall()
         cursor.close()
         
-        return {"success": True, "funcionarios": funcionarios}
+        return funcionarios
     
     except Exception as e:
         print(f"Erro ao buscar funcionários: {e}")

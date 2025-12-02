@@ -165,18 +165,7 @@ def admin_vendas():
 def admin_funcionarios():
     funcionarios = get_funcionarios()
 
-    lista = []
-    for f in funcionarios:
-        lista.append({
-            "nome": f[0],
-            "email": f[1],
-            "idade": f[2],
-            "telefone": f[3],
-            "cargo": f[4],
-            "status": f[5]
-        })
-
-    return render_template("admin/funcionarios.html", funcionarios=lista)
+    return render_template("admin/funcionarios.html", funcionarios=funcionarios)
 
 
 # ==========================================================
