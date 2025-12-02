@@ -1,0 +1,1890 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pet Vida - Tudo para seu Pet</title>
+    <link rel="icon" href="icone-removebg-preview.png" type="image/png">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primaria: #764ba2;
+            --secundaria: #f273a3;
+            --destaque: #f24c6a;
+            --clara: #f8f5ff;
+            --escura: #4b3e85;
+            --texto: #333;
+            --raio: 8px;
+            --sombra: 0 4px 12px rgba(0, 0, 0, 0.1);
+            --transicao: all 0.3s ease;
+            --cor-fundo: #ffbdd3;
+            --cor-secundaria-login: #ff6f91;
+            --cor-texto-login: #660000;
+            --cor-botao-login: #ff6f91;
+            --cor-botao-hover: #cc0055;
+            --cor-sucesso: #4caf50;
+            --cor-erro: #f44336;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #fff;
+            color: var(--texto);
+            line-height: 1.6;
+        }
+
+        /* Cabeçalho Principal */
+        .cabecalho-principal {
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .conteudo-cabecalho {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 15px 20px;
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primaria);
+            font-family: 'Montserrat', sans-serif;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo i {
+            font-size: 2.2rem;
+        }
+
+        .barra-busca {
+            flex: 1;
+            max-width: 600px;
+            margin: 0 20px;
+            position: relative;
+        }
+
+        .barra-busca input {
+            width: 100%;
+            padding: 12px 20px;
+            border: 2px solid #e2e8f0;
+            border-radius: 30px;
+            font-size: 1rem;
+            transition: var(--transicao);
+        }
+
+        .barra-busca input:focus {
+            outline: none;
+            border-color: var(--primaria);
+        }
+
+        .barra-busca button {
+            position: absolute;
+            right: 5px;
+            top: 5px;
+            background: var(--primaria);
+            border: none;
+            color: white;
+            padding: 7px 15px;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: var(--transicao);
+        }
+
+        .barra-busca button:hover {
+            background: var(--escura);
+        }
+
+        .acoes-cabecalho {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .acao-cabecalho {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+            transition: var(--transicao);
+        }
+
+        .acao-cabecalho:hover {
+            color: var(--primaria);
+        }
+
+        .acao-cabecalho i {
+            font-size: 1.5rem;
+            margin-bottom: 5px;
+        }
+
+        .acao-cabecalho span {
+            font-size: 0.8rem;
+        }
+
+        .contador-carrinho {
+            background: var(--secundaria);
+            color: white;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            position: absolute;
+            top: -5px;
+            right: -5px;
+        }
+
+        /* Botão Adote Vida */
+        .botao-adote-vida {
+            background: var(--destaque);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 30px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: var(--transicao);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-right: 15px;
+        }
+
+        .botao-adote-vida:hover {
+            background: #d93d57;
+            transform: translateY(-2px);
+        }
+
+        /* Navegação Principal */
+        .navegacao-principal {
+            background-color: var(--escura);
+            padding: 0;
+        }
+
+        .container-navegacao {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .menu-navegacao {
+            display: flex;
+            list-style: none;
+        }
+
+        .item-navegacao {
+            position: relative;
+        }
+
+        .link-navegacao {
+            color: white;
+            text-decoration: none;
+            padding: 15px 20px;
+            display: block;
+            transition: var(--transicao);
+            font-weight: 500;
+        }
+
+        .link-navegacao:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .item-navegacao:hover .menu-suspenso {
+            display: block;
+        }
+
+        .menu-suspenso {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: white;
+            min-width: 220px;
+            box-shadow: var(--sombra);
+            border-radius: 0 0 var(--raio) var(--raio);
+            z-index: 1000;
+        }
+
+        .item-menu-suspenso {
+            display: block;
+            padding: 12px 20px;
+            color: var(--texto);
+            text-decoration: none;
+            border-bottom: 1px solid #f1f1f1;
+            transition: var(--transicao);
+        }
+
+        .item-menu-suspenso:hover {
+            background-color: #f8f9fa;
+            color: var(--primaria);
+        }
+
+        /* Banner Principal */
+        .banner-principal {
+            position: relative;
+            height: 500px;
+            overflow: hidden;
+            margin-bottom: 40px;
+        }
+
+        .slide-banner {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 1s ease;
+        }
+
+        .slide-banner.ativo {
+            opacity: 1;
+        }
+
+        .slide-banner img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .conteudo-banner {
+            position: absolute;
+            top: 50%;
+            left: 10%;
+            transform: translateY(-50%);
+            color: white;
+            max-width: 500px;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
+        }
+
+        .conteudo-banner h1 {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .conteudo-banner p {
+            font-size: 1.2rem;
+            margin-bottom: 25px;
+        }
+
+        .botao-banner {
+            background: var(--primaria);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 30px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transicao);
+        }
+
+        .botao-banner:hover {
+            background: var(--escura);
+            transform: translateY(-2px);
+        }
+
+        /* Produtos em Destaque */
+        .produtos-destaque {
+            padding: 60px 20px;
+            background-color: #f8f9fa;
+        }
+
+        .container-produtos {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .cabecalho-produtos {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .ver-todos {
+            color: var(--primaria);
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transicao);
+        }
+
+        .ver-todos:hover {
+            color: var(--escura);
+        }
+
+        .grade-produtos {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 25px;
+        }
+
+        .cartao-produto {
+            background: white;
+            border-radius: var(--raio);
+            overflow: hidden;
+            box-shadow: var(--sombra);
+            transition: var(--transicao);
+            position: relative;
+        }
+
+        .cartao-produto:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .etiqueta-produto {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: var(--secundaria);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            z-index: 10;
+        }
+
+        .imagem-produto {
+            height: 200px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #f8f9fa;
+        }
+
+        .imagem-produto img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            padding: 20px;
+            transition: var(--transicao);
+        }
+
+        .cartao-produto:hover .imagem-produto img {
+            transform: scale(1.05);
+        }
+
+        .info-produto {
+            padding: 15px;
+        }
+
+        .categoria-produto {
+            color: #718096;
+            font-size: 0.8rem;
+            margin-bottom: 5px;
+        }
+
+        .nome-produto {
+            font-weight: 600;
+            margin-bottom: 10px;
+            height: 40px;
+            overflow: hidden;
+        }
+
+        .preco-produto {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .preco-atual {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--primaria);
+        }
+
+        .preco-original {
+            font-size: 0.9rem;
+            color: #a0aec0;
+            text-decoration: line-through;
+        }
+
+        .parcelas {
+            font-size: 0.8rem;
+            color: #4a5568;
+        }
+
+        .botao-adicionar-carrinho {
+            width: 100%;
+            background: var(--primaria);
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: var(--raio);
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transicao);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .botao-adicionar-carrinho:hover {
+            background: var(--escura);
+        }
+
+        /* Seção de Adoção */
+        .secao-adocao {
+            padding: 60px 20px;
+            background: linear-gradient(135deg, #f8f5ff, #e6e0ff);
+        }
+
+        .container-adocao {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .cabecalho-adocao {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .titulo-adocao {
+            font-size: 2.5rem;
+            color: var(--primaria);
+            margin-bottom: 15px;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .subtitulo-adocao {
+            font-size: 1.2rem;
+            color: var(--escura);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .grade-pets {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .cartao-pet {
+            background: white;
+            border-radius: var(--raio);
+            overflow: hidden;
+            box-shadow: var(--sombra);
+            transition: var(--transicao);
+        }
+
+        .cartao-pet:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .imagem-pet {
+            height: 250px;
+            overflow: hidden;
+        }
+
+        .imagem-pet img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transicao);
+        }
+
+        .cartao-pet:hover .imagem-pet img {
+            transform: scale(1.05);
+        }
+
+        .info-pet {
+            padding: 20px;
+        }
+
+        .nome-pet {
+            font-size: 1.4rem;
+            color: var(--primaria);
+            margin-bottom: 10px;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .detalhes-pet {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .detalhe-pet {
+            background: var(--clara);
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            color: var(--escura);
+        }
+
+        .descricao-pet {
+            color: #666;
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+
+        .botao-adotar {
+            width: 100%;
+            background: var(--destaque);
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: var(--raio);
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transicao);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .botao-adotar:hover {
+            background: #d93d57;
+        }
+
+        .chamada-adocao {
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .botao-chamada {
+            background: var(--primaria);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 30px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transicao);
+        }
+
+        .botao-chamada:hover {
+            background: var(--escura);
+            transform: translateY(-2px);
+        }
+
+        /* Serviços */
+        .secao-servicos {
+            padding: 60px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .grade-servicos {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+
+        .cartao-servico {
+            text-align: center;
+            padding: 30px 20px;
+            border-radius: var(--raio);
+            background: white;
+            box-shadow: var(--sombra);
+            transition: var(--transicao);
+        }
+
+        .cartao-servico:hover {
+            transform: translateY(-5px);
+        }
+
+        .icone-servico {
+            font-size: 3rem;
+            color: var(--primaria);
+            margin-bottom: 20px;
+        }
+
+        .titulo-servico {
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .descricao-servico {
+            color: #718096;
+        }
+
+        /* Newsletter */
+        .secao-newsletter {
+            background: var(--primaria);
+            color: white;
+            padding: 60px 20px;
+            text-align: center;
+        }
+
+        .conteudo-newsletter {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .titulo-newsletter {
+            font-size: 2rem;
+            margin-bottom: 15px;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .formulario-newsletter {
+            display: flex;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        .entrada-newsletter {
+            flex: 1;
+            padding: 12px 15px;
+            border: none;
+            border-radius: 30px 0 0 30px;
+            font-size: 1rem;
+        }
+
+        .entrada-newsletter:focus {
+            outline: none;
+        }
+
+        .botao-newsletter {
+            background: var(--escura);
+            color: white;
+            border: none;
+            padding: 0 25px;
+            border-radius: 0 30px 30px 0;
+            cursor: pointer;
+            transition: var(--transicao);
+        }
+
+        .botao-newsletter:hover {
+            background: #1a202c;
+        }
+
+        /* Rodapé */
+        .rodape-principal {
+            background: var(--escura);
+            color: white;
+            padding: 60px 0 0;
+        }
+
+        .conteudo-rodape {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+        }
+
+        .coluna-rodape h3 {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            font-family: 'Montserrat', sans-serif;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .coluna-rodape h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 40px;
+            height: 2px;
+            background: var(--primaria);
+        }
+
+        .links-rodape {
+            list-style: none;
+        }
+
+        .links-rodape li {
+            margin-bottom: 10px;
+        }
+
+        .links-rodape a {
+            color: #cbd5e0;
+            text-decoration: none;
+            transition: var(--transicao);
+        }
+
+        .links-rodape a:hover {
+            color: white;
+            padding-left: 5px;
+        }
+
+        .links-sociais {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .link-social {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            color: white;
+            text-decoration: none;
+            transition: var(--transicao);
+        }
+
+        .link-social:hover {
+            background: var(--primaria);
+            transform: translateY(-3px);
+        }
+
+        .metodos-pagamento {
+            margin-top: 20px;
+        }
+
+        .metodos-pagamento img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        .rodape-inferior {
+            background: #1a202c;
+            padding: 20px 0;
+            margin-top: 40px;
+            text-align: center;
+            font-size: 0.9rem;
+            color: #cbd5e0;
+        }
+
+        /* Resultados da busca */
+        .resultados-busca {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .titulo-resultados {
+            margin-bottom: 20px;
+            color: var(--primaria);
+        }
+
+        .sem-resultados {
+            text-align: center;
+            padding: 40px;
+            color: #718096;
+        }
+
+        /* Modal de Cadastro/Login */
+        .login-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+        }
+
+        .login-container {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 400px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+            position: relative;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .login-close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #666;
+        }
+
+        .login-title {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--cor-texto-login);
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 1.2rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--cor-texto-login);
+            font-weight: bold;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.8rem;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        .form-control:focus {
+            border-color: var(--cor-botao-login);
+            outline: none;
+        }
+
+        .form-control.error {
+            border-color: var(--cor-erro);
+        }
+
+        .error-message {
+            color: var(--cor-erro);
+            font-size: 0.8rem;
+            margin-top: 0.3rem;
+            display: block;
+        }
+
+        .info-message {
+            color: #666;
+            font-size: 0.75rem;
+            margin-top: 0.3rem;
+            display: block;
+        }
+
+        .btn {
+            background-color: var(--cor-botao-login);
+            border: none;
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border-radius: 30px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.3s;
+            width: 100%;
+        }
+
+        .btn:hover {
+            background-color: var(--cor-botao-hover);
+            transform: scale(1.02);
+        }
+
+        .btn:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            border: 2px solid var(--cor-botao-login);
+            color: var(--cor-botao-login);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--cor-botao-login);
+            color: white;
+        }
+
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+            margin-left: 10px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .success-message {
+            color: var(--cor-sucesso);
+            font-size: 1rem;
+            text-align: center;
+            margin: 1rem 0;
+        }
+
+        .login-footer {
+            text-align: center;
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid #eee;
+        }
+
+        .login-link {
+            color: var(--cor-botao-login);
+            text-decoration: none;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .login-link:hover {
+            text-decoration: underline;
+        }
+
+        .forgot-password {
+            text-align: center;
+            margin: 1rem 0;
+        }
+
+        /* Modal */
+        .modal { 
+            display: none; 
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%; 
+            background: rgba(0,0,0,0.5); 
+            justify-content: center; 
+            align-items: center; 
+            z-index: 9999; 
+        }
+        .modal-box { 
+            background: white; 
+            border-radius: 15px; 
+            padding: 30px; 
+            width: 90%; 
+            max-width: 400px; 
+            max-height: 90vh; 
+            overflow-y: auto; 
+            position: relative; 
+        }
+        .close { 
+            position: absolute; 
+            top: 15px; 
+            right: 20px; 
+            font-size: 28px; 
+            cursor: pointer; 
+            border: none; 
+            background: none; 
+        }
+        .modal-title { 
+            color: #660000; 
+            font-size: 1.5rem; 
+            margin-bottom: 20px; 
+            text-align: center; 
+        }
+        .form-group { 
+            margin-bottom: 15px; 
+        }
+        .form-group label { 
+            display: block; 
+            color: #660000; 
+            font-weight: bold; 
+            margin-bottom: 5px; 
+        }
+        .form-control { 
+            width: 100%; 
+            padding: 10px; 
+            border: 1px solid #ddd; 
+            border-radius: 8px; 
+            font-size: 1rem; 
+        }
+        .form-control:focus { 
+            outline: none; 
+            border-color: #ff6f91; 
+        }
+        .form-control.error { 
+            border-color: #f44336; 
+        }
+        .error-msg { 
+            color: #f44336; 
+            font-size: 0.8rem; 
+            margin-top: 5px; 
+        }
+        .info-msg { 
+            color: #666; 
+            font-size: 0.75rem; 
+            margin-top: 5px; 
+        }
+        .btn { 
+            width: 100%; 
+            background: #ff6f91; 
+            color: white; 
+            border: none; 
+            padding: 12px; 
+            border-radius: 25px; 
+            font-size: 1rem; 
+            font-weight: bold; 
+            cursor: pointer; 
+            margin-top: 10px; 
+        }
+        .btn:hover { 
+            background: #cc0055; 
+        }
+        .btn:disabled { 
+            background: #ccc; 
+            cursor: not-allowed; 
+        }
+        .btn-sec { 
+            background: transparent; 
+            border: 2px solid #ff6f91; 
+            color: #ff6f91; 
+        }
+        .btn-sec:hover { 
+            background: #ff6f91; 
+            color: white; 
+        }
+        .footer-modal { 
+            text-align: center; 
+            margin-top: 20px; 
+            padding-top: 20px; 
+            border-top: 1px solid #eee; 
+        }
+        .link { 
+            color: #ff6f91; 
+            cursor: pointer; 
+            font-weight: bold; 
+            text-decoration: none; 
+        }
+        .link:hover { 
+            text-decoration: underline; 
+        }
+        .success { 
+            color: #4caf50;
+            text-align: center; 
+            margin: 15px 0; 
+        }
+        .forgot { 
+            text-align: center; 
+            margin: 15px 0; 
+        }
+        .spinner { 
+            display: inline-block; 
+            width: 16px; 
+            height: 16px; 
+            border: 2px solid rgba(255,255,255,0.3); 
+            border-radius: 50%; 
+            border-top-color: white; 
+            animation: spin 0.8s linear infinite; 
+        }
+        @keyframes spin { 
+            to { transform: rotate(360deg); } 
+        }
+    </style>
+</head>
+<body>
+    
+    <div vw class="enabled">
+        <div vw-access-button class="active"></div>
+        <div vw-plugin-wrapper>
+            <div class="vw-plugin-top-wrapper"></div>
+        </div>
+    </div>
+    <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
+    <script>
+        new window.VLibras.Widget('https://vlibras.gov.br/app');
+    </script>
+   
+
+    <header class="cabecalho-principal">
+        <div class="conteudo-cabecalho">
+            <div class="logo">
+                <i class="fas fa-paw"></i>
+                <span>Pet Vida</span>
+            </div>
+            
+            <div class="barra-busca">
+                <input type="text" id="campo-busca" placeholder="O que seu pet precisa?">
+                <button id="botao-busca"><i class="fas fa-search"></i></button>
+            </div>
+            
+            <div class="acoes-cabecalho">
+                <button class="botao-adote-vida" id="botaoAdoteVida">
+                    <i class="fas fa-heart"></i>
+                    <span>Adote Vida</span>
+                </button>
+                <div class="acao-cabecalho" onclick="abrirLogin()">
+                    <i class="far fa-user"></i>
+                    <span>Cadastro/login</span>
+                </div>
+                <div class="acao-cabecalho" style="position: relative;">
+                    <i class="far fa-heart"></i>
+                    <span>Favoritos</span>
+                </div>
+                <div class="acao-cabecalho" style="position: relative;">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span>Carrinho</span>
+                    <div class="contador-carrinho">3</div>
+                </div>
+                <div class="acao-cabecalho" style="position: relative;" onclick="abrirAdmin()" >
+                    <i class="fas fa-user-md"></i>
+                    <span>Painel Administrador</span>
+                    <div class="contador-carrinho"></div>
+                </div>
+            </div>
+        </div>
+        
+        <nav class="navegacao-principal">
+            <div class="container-navegacao">
+                <ul class="menu-navegacao">
+                    <li class="item-navegacao">
+                        <a href="#" class="link-navegacao">Rações PetVida</a>
+                        <div class="menu-suspenso">
+                            <a href="#" class="item-menu-suspenso">Cães Adultos</a>
+                            <a href="#" class="item-menu-suspenso">Cães Filhotes</a>
+                            <a href="#" class="item-menu-suspenso">Gatos Adultos</a>
+                            <a href="#" class="item-menu-suspenso">Gatos Filhotes</a>
+                            <a href="#" class="item-menu-suspenso">Raças Específicas</a>
+                        </div>
+                    </li>
+                    <li class="item-navegacao">
+                        <a href="#" class="link-navegacao">Petiscos</a>
+                    </li>
+                    <li class="item-navegacao">
+                        <a href="#" class="link-navegacao">Farmácia</a>
+                    </li>
+                    <li class="item-navegacao">
+                        <a href="#" class="link-navegacao">Acessórios</a>
+                    </li>
+                    <li class="item-navegacao">
+                        <a href="#" class="link-navegacao">Ofertas</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <section class="banner-principal">
+        <div class="slide-banner ativo">
+            <img src="static/banner.png" alt="Raçōes PetVida">
+            <div class="conteudo-banner">
+                <h1>Rações PetVida - Qualidade Garantida</h1>
+                <p>Alimente seu pet com o melhor, direto da nossa fábrica!</p>
+                <button class="botao-banner">Ver Rações</button>
+            </div>
+        </div>
+    </section>
+
+    <section class="resultados-busca" id="resultadosBusca" style="display: none;">
+        <h2 class="titulo-resultados">Resultados da busca</h2>
+        <div class="grade-produtos" id="grade-resultados">
+            </div>
+        <div class="sem-resultados" id="semResultados" style="display: none;">
+            <i class="fas fa-search" style="font-size: 3rem; margin-bottom: 15px;"></i>
+            <h3>Nenhum produto encontrado</h3>
+            <p>Tente usar outros termos de busca ou navegar pelas categorias.</p>
+        </div>
+    </section>
+
+    <section class="produtos-destaque" id="produtosDestaque">
+        <div class="container-produtos">
+            <div class="cabecalho-produtos">
+                <h2 class="titulo-secao">Rações PetVida</h2>
+                <a href="#" class="ver-todos">Ver Todas <i class="fas fa-arrow-right"></i></a>
+            </div>
+            <div class="grade-produtos">
+                <div class="cartao-produto">
+                    <span class="etiqueta-produto">NOVO</span>
+                    <div class="imagem-produto">
+                        <img src="static/racao-premium-caes.png" alt="Ração Premium Cães">
+                    </div>
+                    <div class="info-produto">
+                        <span class="categoria-produto">Cães | Rações</span>
+                        <h3 class="nome-produto">Ração Seca Premium para Cães Adultos - 15kg</h3>
+                        <div class="preco-produto">
+                            <span class="preco-atual">R$ 189,90</span>
+                            </div>
+                        <span class="parcelas">Em até 3x de R$ 63,30 sem juros</span>
+                        <button class="botao-adicionar-carrinho"><i class="fas fa-shopping-bag"></i> Adicionar</button>
+                    </div>
+                </div>
+
+                <div class="cartao-produto">
+                    <span class="etiqueta-produto">20% OFF</span>
+                    <div class="imagem-produto">
+                        <img src="static/petisco-gato.png" alt="Petisco Salmão Gatos">
+                    </div>
+                    <div class="info-produto">
+                        <span class="categoria-produto">Gatos | Petiscos</span>
+                        <h3 class="nome-produto">Snacks Deliciosos de Salmão para Gatos</h3>
+                        <div class="preco-produto">
+                            <span class="preco-atual">R$ 24,00</span>
+                            <span class="preco-original">R$ 30,00</span>
+                        </div>
+                        <span class="parcelas">ou R$ 22,80 no PIX</span>
+                        <button class="botao-adicionar-carrinho"><i class="fas fa-shopping-bag"></i> Adicionar</button>
+                    </div>
+                </div>
+                
+                <div class="cartao-produto">
+                    <div class="imagem-produto">
+                        <img src="static/caminha-cachorro.png" alt="Caminha Dog Premium">
+                    </div>
+                    <div class="info-produto">
+                        <span class="categoria-produto">Acessórios | Cães</span>
+                        <h3 class="nome-produto">Cama Confort Plus para Cães de Médio Porte</h3>
+                        <div class="preco-produto">
+                            <span class="preco-atual">R$ 125,50</span>
+                        </div>
+                        <span class="parcelas">Em até 2x de R$ 62,75 sem juros</span>
+                        <button class="botao-adicionar-carrinho"><i class="fas fa-shopping-bag"></i> Adicionar</button>
+                    </div>
+                </div>
+
+                <div class="cartao-produto">
+                    <span class="etiqueta-produto">Bestseller</span>
+                    <div class="imagem-produto">
+                        <img src="static/coleira-anti-pulgas.png" alt="Coleira Antipulgas">
+                    </div>
+                    <div class="info-produto">
+                        <span class="categoria-produto">Farmácia | Cães & Gatos</span>
+                        <h3 class="nome-produto">Coleira Antipulgas e Carrapatos (até 8 meses)</h3>
+                        <div class="preco-produto">
+                            <span class="preco-atual">R$ 79,90</span>
+                        </div>
+                        <span class="parcelas">Em até 3x de R$ 26,63 sem juros</span>
+                        <button class="botao-adicionar-carrinho"><i class="fas fa-shopping-bag"></i> Adicionar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="secao-adocao">
+        <div class="container-adocao">
+            <div class="cabecalho-adocao">
+                <h2 class="titulo-adocao"><i class="fas fa-heartbeat"></i> Nossos Pets para Adoção</h2>
+                <p class="subtitulo-adocao">Dê um lar cheio de amor para um pet resgatado. Conheça alguns dos nossos amigos em busca de uma família.</p>
+            </div>
+            
+            <div class="grade-pets">
+                <div class="cartao-pet">
+                    <div class="imagem-pet">
+                        <img src="static/pet-dog.jpg" alt="Pet para Adoção: Max">
+                    </div>
+                    <div class="info-pet">
+                        <h3 class="nome-pet">Max</h3>
+                        <div class="detalhes-pet">
+                            <span class="detalhe-pet">Cachorro</span>
+                            <span class="detalhe-pet">Macho</span>
+                            <span class="detalhe-pet">Jovem</span>
+                        </div>
+                        <p class="descricao-pet">Max é brincalhão, adora correr e precisa de um quintal grande. Ideal para famílias ativas.</p>
+                        <button class="botao-adotar"><i class="fas fa-paw"></i> Quero Adotar Max</button>
+                    </div>
+                </div>
+
+                <div class="cartao-pet">
+                    <div class="imagem-pet">
+                        <img src="static/pet-cat.jpg" alt="Pet para Adoção: Luna">
+                    </div>
+                    <div class="info-pet">
+                        <h3 class="nome-pet">Luna</h3>
+                        <div class="detalhes-pet">
+                            <span class="detalhe-pet">Gato</span>
+                            <span class="detalhe-pet">Fêmea</span>
+                            <span class="detalhe-pet">Adulto</span>
+                        </div>
+                        <p class="descricao-pet">Luna é calma e carinhosa. Perfeita para apartamentos e gosta de passar o dia dormindo ao sol.</p>
+                        <button class="botao-adotar"><i class="fas fa-paw"></i> Quero Adotar Luna</button>
+                    </div>
+                </div>
+
+                <div class="cartao-pet">
+                    <div class="imagem-pet">
+                        <img src="static/pet-parrot.jpg" alt="Pet para Adoção: Chico">
+                    </div>
+                    <div class="info-pet">
+                        <h3 class="nome-pet">Chico</h3>
+                        <div class="detalhes-pet">
+                            <span class="detalhe-pet">Pássaro</span>
+                            <span class="detalhe-pet">Macho</span>
+                            <span class="detalhe-pet">Adulto</span>
+                        </div>
+                        <p class="descricao-pet">Chico é um periquito tagarela e sociável. Requer um ambiente com interação constante e seguro.</p>
+                        <button class="botao-adotar"><i class="fas fa-paw"></i> Quero Adotar Chico</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="chamada-adocao">
+                <a href="#" class="botao-chamada">
+                    <i class="fas fa-list-ul"></i> Ver todos os animais para adoção
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <section class="secao-servicos">
+        <h2 class="titulo-secao text-center mb-5" style="color: var(--primaria);">Nossos Serviços Pet</h2>
+        <div class="grade-servicos">
+            <div class="cartao-servico">
+                <i class="fas fa-cut icone-servico"></i>
+                <h3 class="titulo-servico">Banho e Tosa</h3>
+                <p class="descricao-servico">Profissionais qualificados para deixar seu pet limpo, cheiroso e estiloso.</p>
+            </div>
+            <div class="cartao-servico">
+                <i class="fas fa-user-md icone-servico"></i>
+                <h3 class="titulo-servico">Clínica Veterinária</h3>
+                <p class="descricao-servico">Consultas, vacinas e emergências com o cuidado que seu melhor amigo merece.</p>
+            </div>
+            <div class="cartao-servico">
+                <i class="fas fa-hotel icone-servico"></i>
+                <h3 class="titulo-servico">Hotel Pet</h3>
+                <p class="descricao-servico">Hospedagem segura e divertida com monitoramento 24 horas.</p>
+            </div>
+            <div class="cartao-servico">
+                <i class="fas fa-bus icone-servico"></i>
+                <h3 class="titulo-servico">Pet Móvel</h3>
+                <p class="descricao-servico">Serviço de busca e entrega com conforto e segurança para o seu pet.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="secao-newsletter">
+        <div class="conteudo-newsletter">
+            <h2 class="titulo-newsletter">Assine nossa Newsletter!</h2>
+            <p>Receba as melhores ofertas, novidades e dicas de cuidado para seu pet.</p>
+            <form class="formulario-newsletter">
+                <input type="email" class="entrada-newsletter" placeholder="Digite seu melhor e-mail" required>
+                <button type="submit" class="botao-newsletter"><i class="fas fa-paper-plane"></i></button>
+            </form>
+        </div>
+    </section>
+
+    <footer class="rodape-principal">
+        <div class="conteudo-rodape">
+            <div class="coluna-rodape">
+                <h3>Pet Vida</h3>
+                <p>O melhor para o seu pet, desde 2010.</p>
+                <p><i class="fas fa-map-marker-alt"></i> Rua dos Pets Felizes, 123</p>
+                <p><i class="fas fa-phone"></i> (47) 9876-5432</p>
+                <p><i class="fas fa-envelope"></i> contato@petvida.com.br</p>
+                <div class="links-sociais">
+                    <a href="#" class="link-social"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="link-social"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="link-social"><i class="fab fa-twitter"></i></a>
+                </div>
+            </div>
+
+            <div class="coluna-rodape">
+                <h3>Informações</h3>
+                <ul class="links-rodape">
+                    <li><a href="#">Sobre Nós</a></li>
+                    <li><a href="#">Trabalhe Conosco</a></li>
+                    <li><a href="#">Política de Privacidade</a></li>
+                    <li><a href="#">Termos de Uso</a></li>
+                    <li><a href="#">Programa de Afiliados</a></li>
+                </ul>
+            </div>
+
+            <div class="coluna-rodape">
+                <h3>Minha Conta</h3>
+                <ul class="links-rodape">
+                    <li><a href="#" onclick="abrirLogin()">Login/Cadastro</a></li>
+                    <li><a href="#">Meus Pedidos</a></li>
+                    <li><a href="#">Acompanhar Entrega</a></li>
+                    <li><a href="#">Trocas e Devoluções</a></li>
+                    <li><a href="#">Cupons de Desconto</a></li>
+                </ul>
+            </div>
+
+            <div class="coluna-rodape">
+                <h3>Formas de Pagamento</h3>
+                <p>Aceitamos as principais bandeiras.</p>
+                <div class="metodos-pagamento">
+                    </div>
+            </div>
+        </div>
+
+        <div class="rodape-inferior">
+            &copy; 2024 Pet Vida. Todos os direitos reservados.
+        </div>
+    </footer>
+
+   <!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pet Vida - Cadastro Simplificado</title>
+</head>
+<body>
+    
+    <!-- MODAL DE CADASTRO/LOGIN -->
+    <div id="modalLogin" class="modal">
+        <div class="modal-box">
+            <button class="close" onclick="fecharModal('modalLogin')">&times;</button>
+            <h2 class="modal-title" id="modalTitle">Crie sua Conta na Pet Vida</h2>
+
+            <!-- FORMULÁRIO DE CADASTRO -->
+            <div id="formCadastro" style="display: block;">
+                <form id="cadastroForm" action="/" method="post">
+                    <div class="form-group">
+                        <label for="nome">Nome Completo</label>
+                        <input type="text" class="form-control" id="nome" name="nome" required>
+                        <span class="error-msg" id="nomeError"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">E-mail</label>
+                        <input type="email" class="form-control" id="email" name="email" required>
+                        <span class="error-msg" id="emailError"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="idade">Idade</label>
+                        <input type="number" id="idade" name="idade" class="form-control" placeholder="Sua idade" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="telefone">Telefone</label>
+                        <input type="tel" id="telefone" name="telefone" class="form-control" placeholder="(XX) XXXXX-XXXX" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="senha">Senha</label>
+                        <input type="password" class="form-control" id="senha" name="senha" required>
+                        <span class="info-msg">Mínimo de 6 caracteres, com letras e números.</span>
+                        <span class="error-msg" id="senhaError"></span>
+                    </div>
+
+                    <!-- CAMPOS TIPO DE USUÁRIO E CARGO FORAM REMOVIDOS -->
+
+                    <p class="success" id="cadastroSuccess" style="display: none;"></p>
+                    <button type="submit" class="btn" id="btnCadastro">Cadastrar</button>
+                </form>
+
+                <div class="footer-modal">
+                    Já tem conta? <a href="#" class="link" onclick="alternarFormulario('login')">Faça Login</a>
+                </div>
+            </div>
+
+            <!-- FORMULÁRIO DE LOGIN -->
+            <div id="formLogin" style="display: none;">
+                <form id="loginForm" action="/Login" method="post">
+                    <div class="form-group">
+                        <label for="loginEmail">E-mail</label>
+                        <input type="email" class="form-control" id="loginEmail" name="loginEmail" required>
+                        <span class="error-msg" id="loginEmailError"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="loginSenha">Senha</label>
+                        <input type="password" class="form-control" id="loginSenha" name="loginSenha" required>
+                        <span class="error-msg" id="loginSenhaError"></span>
+                    </div>
+
+                    <p class="success" id="loginSuccess" style="display: none;"></p>
+                    <button type="submit" class="btn" id="btnLogin">Entrar</button>
+                </form>
+
+                <div class="forgot">
+                    <a href="#" class="link" onclick="alert('Funcionalidade de recuperação de senha em desenvolvimento.')">Esqueceu a senha?</a>
+                </div>
+
+                <div class="footer-modal">
+                    Não tem conta? <a href="#" class="link" onclick="alternarFormulario('cadastro')">Crie sua Conta</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- FUNÇÃO REMOVIDA: mostrarCargoFuncionario() ---
+        // Esta função foi completamente removida pois não é mais necessária
+
+        function abrirAdmin() {
+            window.location.href = '/admin_page';
+        }
+
+        // --- Funções do Modal ---
+        function abrirLogin() {
+            document.getElementById('modalLogin').style.display = 'flex';
+            alternarFormulario('cadastro');
+        }
+
+        function fecharModal(id) {
+            document.getElementById(id).style.display = 'none';
+        }
+
+        function alternarFormulario(tipo) {
+            const formCadastro = document.getElementById('formCadastro');
+            const formLogin = document.getElementById('formLogin');
+            const modalTitle = document.getElementById('modalTitle');
+
+            if (tipo === 'cadastro') {
+                formCadastro.style.display = 'block';
+                formLogin.style.display = 'none';
+                modalTitle.textContent = 'Crie sua Conta na Pet Vida';
+            } else if (tipo === 'login') {
+                formCadastro.style.display = 'none';
+                formLogin.style.display = 'block';
+                modalTitle.textContent = 'Acesse sua Conta';
+            }
+            
+            // Limpa mensagens e campos de erro ao alternar
+            document.getElementById('cadastroSuccess').style.display = 'none';
+            document.getElementById('loginSuccess').style.display = 'none';
+            document.querySelectorAll('.error-msg').forEach(el => el.textContent = '');
+            document.querySelectorAll('.form-control').forEach(el => el.classList.remove('error'));
+        }
+
+        // Fechar modal clicando fora
+        window.onclick = function(event) {
+            const modal = document.getElementById('modalLogin');
+            if (event.target === modal) {
+                fecharModal('modalLogin');
+            }
+        }
+
+        // --- Simulação de Validação e Envio ---
+        function simularProcessamento(btn, successMsgId, callback) {
+            const originalText = btn.innerHTML;
+            btn.disabled = true;
+            btn.innerHTML = 'Processando... <span class="spinner"></span>';
+            document.getElementById(successMsgId).style.display = 'none';
+
+            setTimeout(() => {
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+                callback();
+            }, 1500);
+        }
+
+        // --- FORMULÁRIO DE CADASTRO SIMPLIFICADO ---
+        document.getElementById('cadastroForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const btn = document.getElementById('btnCadastro');
+
+            // Limpa erros anteriores
+            document.querySelectorAll('.error-msg').forEach(el => el.textContent = '');
+            document.querySelectorAll('.form-control').forEach(el => el.classList.remove('error'));
+            
+            let isValid = true;
+
+            // Validação de campos simples
+            const nome = document.getElementById('nome');
+            if (nome.value.trim() === '') {
+                document.getElementById('nomeError').textContent = 'O nome é obrigatório.';
+                nome.classList.add('error');
+                isValid = false;
+            }
+
+            const email = document.getElementById('email');
+            if (email.value.trim() === '' || !email.value.includes('@')) {
+                document.getElementById('emailError').textContent = 'E-mail inválido.';
+                email.classList.add('error');
+                isValid = false;
+            }
+
+            const senha = document.getElementById('senha');
+            if (senha.value.length < 6) {
+                document.getElementById('senhaError').textContent = 'A senha deve ter no mínimo 6 caracteres.';
+                senha.classList.add('error');
+                isValid = false;
+            }
+
+            // VALIDAÇÕES DE TIPO DE USUÁRIO E CARGO FORAM REMOVIDAS
+
+            if (isValid) {
+                simularProcessamento(btn, 'cadastroSuccess', () => {
+                    document.getElementById('cadastroSuccess').textContent = 'Cadastro realizado com sucesso! Redirecionando...';
+                    document.getElementById('cadastroSuccess').style.display = 'block';
+                    setTimeout(() => {
+                        document.getElementById('cadastroForm').submit(); // Envia o formulário
+
+                        console.log("Usuário Cadastrado:", {
+                            nome: nome.value,
+                            email: email.value
+                            // Campos tipo e cargo foram removidos
+                        });
+                    }, 1000);
+                });
+            }
+        });
+
+        // --- FORMULÁRIO DE LOGIN (mantido inalterado) ---
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const btn = document.getElementById('btnLogin');
+            
+            document.querySelectorAll('.error-msg').forEach(el => el.textContent = '');
+            document.querySelectorAll('.form-control').forEach(el => el.classList.remove('error'));
+
+            let isValid = true;
+            const loginEmail = document.getElementById('loginEmail');
+            const loginSenha = document.getElementById('loginSenha');
+
+            if (loginEmail.value.trim() === '' || !loginEmail.value.includes('@')) {
+                document.getElementById('loginEmailError').textContent = 'E-mail inválido.';
+                loginEmail.classList.add('error');
+                isValid = false;
+            }
+
+            if (loginSenha.value.length < 6) {
+                document.getElementById('loginSenhaError').textContent = 'Senha inválida.';
+                loginSenha.classList.add('error');
+                isValid = false;
+            }
+
+            if (isValid) {
+                simularProcessamento(btn, 'loginSuccess', () => {
+                    if (loginSenha.value === '123456') {
+                        document.getElementById('loginSuccess').textContent = 'Login efetuado com sucesso! Bem-vindo(a).';
+                        document.getElementById('loginSuccess').style.display = 'block';
+                        setTimeout(() => fecharModal('modalLogin'), 1000);
+                    } else {
+                        document.getElementById('loginSenhaError').textContent = 'E-mail ou senha incorretos.';
+                        loginEmail.classList.add('error');
+                        loginSenha.classList.add('error');
+                    }
+                });
+            }
+        });
+
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            
+            // --- LÓGICA DO TELEFONE ---
+            const inputTelefone = document.getElementById('telefone');
+
+            if(inputTelefone) {
+                inputTelefone.addEventListener('input', function(e) {
+                    let v = e.target.value;
+                    v = v.replace(/\D/g, "");
+                    if (v.length > 11) v = v.slice(0, 11);
+                    v = v.replace(/^(\d{2})(\d)/g, "($1) $2");
+                    v = v.replace(/(\d)(\d{4})$/, "$1-$2");
+                    e.target.value = v;
+                });
+            }
+
+            // --- LÓGICA DA IDADE ---
+            const inputIdade = document.getElementById('idade');
+
+            if(inputIdade) {
+                inputIdade.addEventListener('keydown', function(e) {
+                    if ([46, 8, 9, 27, 13, 110].indexOf(e.keyCode) !== -1 ||
+                        (e.keyCode === 65 && (e.ctrlKey === true || e.metaKey === true)) || 
+                        (e.keyCode >= 35 && e.keyCode <= 40)) {
+                         return;
+                    }
+                    if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
+                        e.preventDefault();
+                    }
+                });
+
+                inputIdade.addEventListener('input', function(e) {
+                    let valor = e.target.value;
+                    valor = valor.replace(/[^0-9]/g, '');
+                    if (valor === '') return;
+                    let numero = parseInt(valor);
+                    if (numero > 100) {
+                        e.target.value = 100;
+                    } else if (numero < 0) {
+                        e.target.value = 0;
+                    }
+                });
+            }
+        });
+    </script>
+<script>
+  // Verifica o status de admin do usuário ao carregar a página
+  function verificarStatusAdmin() {
+    const tipoUsuario = localStorage.getItem('tipoUsuario');
+    const painelAdmin = document.getElementById('painelAdmin');
+    
+    if (painelAdmin) {
+      if (tipoUsuario === 'admin') {
+        painelAdmin.classList.remove('hidden');
+      } else {
+        painelAdmin.classList.add('hidden');
+      }
+    }
+  }
+
+  // Função para registrar login
+  function registrarLogin(tipo, email) {
+    localStorage.setItem('tipoUsuario', tipo);
+    localStorage.setItem('emailUsuario', email);
+    verificarStatusAdmin();
+  }
+
+  // Função para fazer logout
+  function fazerLogout() {
+    localStorage.removeItem('tipoUsuario');
+    localStorage.removeItem('emailUsuario');
+    verificarStatusAdmin();
+    // Redireciona ou atualiza a página se necessário
+    window.location.reload();
+  }
+
+  // Executa ao carregar a página
+  document.addEventListener('DOMContentLoaded', function() {
+    verificarStatusAdmin();
+  });
+
+  // Modifica o formulário de login para fazer requisição real ao servidor
+  const loginForm = document.getElementById('loginForm');
+  if (loginForm) {
+    loginForm.addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const btn = document.getElementById('btnLogin');
+      const loginEmail = document.getElementById('loginEmail');
+      const loginSenha = document.getElementById('loginSenha');
+
+      document.querySelectorAll('.error-msg').forEach(el => el.textContent = '');
+      document.querySelectorAll('.form-control').forEach(el => el.classList.remove('error'));
+
+      let isValid = true;
+
+      if (loginEmail.value.trim() === '' || !loginEmail.value.includes('@')) {
+        document.getElementById('loginEmailError').textContent = 'E-mail inválido.';
+        loginEmail.classList.add('error');
+        isValid = false;
+      }
+
+      if (loginSenha.value.length < 6) {
+        document.getElementById('loginSenhaError').textContent = 'Senha inválida.';
+        loginSenha.classList.add('error');
+        isValid = false;
+      }
+
+      if (isValid) {
+        // Simula processamento
+        const originalText = btn.innerHTML;
+        btn.disabled = true;
+        btn.innerHTML = 'Processando... <span class="spinner"></span>';
+        document.getElementById('loginSuccess').style.display = 'none';
+
+        try {
+          // FAZ REQUISIÇÃO REAL PARA O SERVIDOR
+          const response = await fetch('/login', {  // Ajuste a URL conforme sua rota
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: new URLSearchParams({
+              Email: loginEmail.value,
+              Senha: loginSenha.value
+            })
+          });
+
+          const data = await response.json();
+          
+          btn.innerHTML = originalText;
+          btn.disabled = false;
+
+          if (response.ok) {
+            // Login bem-sucedido
+            document.getElementById('loginSuccess').textContent = data.mensagem || 'Login efetuado com sucesso! Bem-vindo(a).';
+            document.getElementById('loginSuccess').style.display = 'block';
+            
+            // Registra o login com o tipo retornado pelo servidor
+            registrarLogin(data.tipo || 'usuario', loginEmail.value);
+            
+            setTimeout(() => {
+              fecharModal('modalLogin');
+              // Recarrega a página para atualizar o cabeçalho
+              window.location.reload();
+            }, 1000);
+          } else {
+            // Erro no login
+            document.getElementById('loginSenhaError').textContent = data.erro || 'E-mail ou senha incorretos.';
+            loginEmail.classList.add('error');
+            loginSenha.classList.add('error');
+          }
+        } catch (error) {
+          // Erro na requisição
+          btn.innerHTML = originalText;
+          btn.disabled = false;
+          document.getElementById('loginSenhaError').textContent = 'Erro ao conectar com o servidor.';
+          console.error('Erro:', error);
+        }
+      }
+    });
+  }
+
+  // Adiciona botão de logout (opcional)
+  function adicionarBotaoLogout() {
+    const tipoUsuario = localStorage.getItem('tipoUsuario');
+    const acoesCabecalho = document.querySelector('.acoes-cabecalho');
+    
+    if (tipoUsuario && acoesCabecalho) {
+      // Remove botão de logout existente
+      const botaoLogoutExistente = document.getElementById('botaoLogout');
+      if (botaoLogoutExistente) {
+        botaoLogoutExistente.remove();
+      }
+      
+      // Adiciona botão de logout
+      const botaoLogout = document.createElement('div');
+      botaoLogout.className = 'acao-cabecalho';
+      botaoLogout.id = 'botaoLogout';
+      botaoLogout.onclick = fazerLogout;
+      botaoLogout.innerHTML = `
+        <i class="fas fa-sign-out-alt"></i>
+        <span>Sair</span>
+      `;
+      acoesCabecalho.appendChild(botaoLogout);
+    }
+  }
+
+  // Modifica a função registrarLogin para incluir botão de logout
+  function registrarLogin(tipo, email) {
+    localStorage.setItem('tipoUsuario', tipo);
+    localStorage.setItem('emailUsuario', email);
+    verificarStatusAdmin();
+    adicionarBotaoLogout();
+  }
+
+  // Atualiza a função verificarStatusAdmin
+  function verificarStatusAdmin() {
+    const tipoUsuario = localStorage.getItem('tipoUsuario');
+    const painelAdmin = document.getElementById('painelAdmin');
+    
+    if (painelAdmin) {
+      if (tipoUsuario === 'admin') {
+        painelAdmin.classList.remove('hidden');
+      } else {
+        painelAdmin.classList.add('hidden');
+      }
+    }
+    
+    adicionarBotaoLogout();
+  }
+</script>
+</body>
+</html>

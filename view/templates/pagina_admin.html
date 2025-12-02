@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Painel do Administrador</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <style>
+    :root {
+      --primaria: #764ba2;
+      --secundaria: #f273a3;
+      --destaque: #f24c6a;
+      --clara: #f8f5ff;
+      --escura: #4b3e85;
+      --texto: #333;
+      --raio: 8px;
+      --sombra: 0 4px 12px rgba(0, 0, 0, 0.1);
+      --transicao: all 0.3s ease;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', 'Segoe UI', Arial, sans-serif;
+      display: flex;
+      background: #f5f5f5;
+      min-height: 100vh;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      width: 220px;
+      background: var(--primaria);
+      color: #fff;
+      height: 100vh;
+      padding: 1rem;
+      position: fixed;
+      box-shadow: 2px 0 12px rgba(118, 75, 162, 0.2);
+    }
+
+    .sidebar h2 {
+      text-align: center;
+      margin-bottom: 1rem;
+      font-size: 1.4rem;
+      font-weight: 700;
+    }
+
+    .sidebar ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .sidebar ul li {
+      margin: 0.5rem 0;
+    }
+
+    .sidebar ul li a {
+      color: #fff;
+      text-decoration: none;
+      font-weight: 500;
+      display: block;
+      padding: 0.75rem;
+      border-radius: var(--raio);
+      transition: var(--transicao);
+    }
+
+    .sidebar ul li a:hover {
+      background: rgba(255, 255, 255, 0.15);
+      transform: translateX(5px);
+    }
+
+    /* Conteúdo principal */
+    .main-content {
+      margin-left: 240px;
+      padding: 2rem;
+      flex: 1;
+    }
+
+    .section {
+      display: none;
+    }
+
+    .section.active {
+      display: block;
+    }
+
+    h1 {
+      color: var(--primaria);
+      font-size: 2rem;
+      margin-bottom: 1.5rem;
+      font-weight: 700;
+    }
+
+    /* Tabela */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1rem;
+      background: #fff;
+      box-shadow: var(--sombra);
+      border-radius: var(--raio);
+      overflow: hidden;
+    }
+
+    table th, table td {
+      padding: 0.75rem;
+      border-bottom: 1px solid #f0f0f0;
+      text-align: left;
+    }
+
+    table th {
+      background: var(--primaria);
+      color: white;
+      font-weight: 600;
+    }
+
+    table tr:hover {
+      background: var(--clara);
+    }
+
+    /* Botões arredondados */
+    .btn {
+      background: var(--primaria);
+      color: #fff;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: var(--transicao);
+      font-weight: 600;
+    }
+
+    .btn:hover {
+      background: var(--escura);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(118, 75, 162, 0.3);
+    }
+
+    .btn-danger {
+      background: var(--destaque);
+    }
+
+    .btn-danger:hover {
+      background: #d93d57;
+    }
+
+    /* ============================================ */
+    /* GRID DE CONTAINERS 2x2                      */
+    /* ============================================ */
+    .grid-containers {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 15px;
+      margin-bottom: 10px;
+    }
+
+    .container_admin {
+      background: white;
+      padding: 20px;
+      border: 2px solid var(--clara);
+      border-radius: var(--raio);
+      box-shadow: var(--sombra);
+      transition: var(--transicao);
+      border-left: 5px solid var(--primaria);
+    }
+
+    .container_admin:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 20px rgba(118, 75, 162, 0.15);
+      border-left-color: var(--destaque);
+    }
+
+    .container_admin h2 {
+      color: var(--primaria);
+      font-size: 1.2rem;
+      margin-top: 0;
+      margin-bottom: 15px;
+      font-weight: 700;
+    }
+
+    /* ============================================ */
+
+    .debug-info {
+      background: var(--clara);
+      padding: 1rem;
+      border-radius: var(--raio);
+      margin-bottom: 1rem;
+      border-left: 4px solid var(--primaria);
+    }
+
+    .info-admin {
+      font-size: 0.9rem;
+      color: #666;
+      margin-bottom: 15px;
+      padding-bottom: 15px;
+      border-bottom: 2px solid var(--clara);
+      line-height: 1.6;
+    }
+
+    .info-admin strong {
+      color: var(--primaria);
+      font-weight: 600;
+    }
+
+    .acoes-container {
+      display: flex;
+      gap: 8px;
+      margin-top: 15px;
+    }
+
+    .acoes-container button {
+      flex: 1;
+      padding: 0.6rem;
+      font-size: 0.85rem;
+    }
+
+    /* Responsivo */
+    @media (max-width: 1200px) {
+      .grid-containers {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 768px) {
+      .grid-containers {
+        grid-template-columns: 1fr;
+      }
+      
+      .main-content {
+        margin-left: 0;
+        padding: 1rem;
+      }
+
+      .sidebar {
+        width: 100%;
+        height: auto;
+        position: relative;
+      }
+
+      body {
+        flex-direction: column;
+      }
+
+      h1 {
+        font-size: 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="sidebar">
+    <h2>Painel do Administrador</h2>
+    <ul>
+      <li><a href="#" onclick="showSection('painel')">📊 Painel do Adm</a></li>
+      <li><a href="#" onclick="showSection('produtos')">📦 Produtos</a></li>
+      <li><a href="#" onclick="showSection('usuarios')">👥 Usuários</a></li>
+      <li><a href="#" onclick="showSection('abrigos')">🏠 Abrigos</a></li>
+      <li><a href="#" onclick="showSection('vendas')">💰 Vendas</a></li>
+      <li><a href="#" onclick="showSection('colaboradores')">🤝 Funcionários</a></li>
+      <li><a href="#" onclick="showSection('endereco')">📍 Endereço PetVida</a></li>
+    </ul>
+  </div>
+
+  <div class="main-content">
+    <!-- Painel do Adm -->
+    <section id="painel" class="section active">
+      <h1>👨‍💼 Administrador</h1>
+      
+      <div class="grid-containers">
+        
+        {% if usuario_adm %}
+          {% for adm in usuario_adm %}
+          <div class="container_admin">
+            <h2>Admin {{ loop.index }}</h2>
+            <div class="info-admin">
+              <strong>Nome:</strong> {{ adm.nome_admin }}<br>
+              <strong>Email:</strong> {{ adm.email }}
+            </div>
+
+            <div class="acoes-container">
+              <button class="btn">✏️ Editar</button>
+              <button class="btn btn-danger">🗑️ Deletar</button>
+            </div>
+          </div>
+          {% endfor %}
+        {% else %}
+          <div style="grid-column: 1 / -1; text-align: center; padding: 40px; color: #999;">
+            <i class="fas fa-inbox" style="font-size: 3rem; margin-bottom: 10px;"></i>
+            <p>⚠️ Nenhum administrador cadastrado</p>
+          </div>
+        {% endif %}
+
+      </div>
+
+    </section>
+
+    <!-- Produtos -->
+    <section id="produtos" class="section">
+      <h1>📦 Gerenciar Produtos</h1>
+      <button class="btn" style="margin-bottom: 1rem;">+ Adicionar Produto</button>
+      <table>
+        <thead>
+          <tr>
+            <th>Nome</th>
+            <th>Preço</th>
+            <th>Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Ração Canina</td>
+            <td>R$ 50,00</td>
+            <td>
+              <button class="btn" style="padding: 0.3rem 0.8rem; font-size: 0.8rem;">Editar</button>
+              <button class="btn btn-danger" style="padding: 0.3rem 0.8rem; font-size: 0.8rem;">Deletar</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- Usuários -->
+    <section id="usuarios" class="section">
+      <h1>👥 Usuários Cadastrados</h1>
+      <table>
+        <thead>
+          <tr>
+            <th>Nome</th>
+            <th>Email</th>
+            <th>Tipo</th>
+            <th>Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Maria Silva</td>
+            <td>maria@email.com</td>
+            <td>Administrador</td>
+            <td>
+              <button class="btn" style="padding: 0.3rem 0.8rem; font-size: 0.8rem;">Bloquear</button>
+              <button class="btn btn-danger" style="padding: 0.3rem 0.8rem; font-size: 0.8rem;">Remover</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- Abrigos -->
+    <section id="abrigos" class="section">
+      <h1>🏠 Gerenciar Abrigos</h1>
+      <button class="btn" style="margin-bottom: 1rem;">+ Adicionar Abrigo</button>
+      <table>
+        <thead>
+          <tr>
+            <th>Nome</th>
+            <th>Localização</th>
+            <th>Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Abrigo Esperança</td>
+            <td>Joinville - SC</td>
+            <td>
+              <button class="btn" style="padding: 0.3rem 0.8rem; font-size: 0.8rem;">Editar</button>
+              <button class="btn btn-danger" style="padding: 0.3rem 0.8rem; font-size: 0.8rem;">Deletar</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- Vendas -->
+    <section id="vendas" class="section">
+      <h1>💰 Controle de Vendas</h1>
+      <table>
+        <thead>
+          <tr>
+            <th>Produto</th>
+            <th>Quantidade</th>
+            <th>Valor Total</th>
+            <th>Data</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Ração Canina</td>
+            <td>3</td>
+            <td>R$ 150,00</td>
+            <td>27/11/2025</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- Funcionários -->
+    <section id="colaboradores" class="section">
+      <h1>🤝 Nossos Funcionários</h1>
+      
+      <div class="grid-containers">
+        {% if funcionarios %}
+          {% for func in funcionarios %}
+          <div class="container_admin">
+            <h2>{{ func.nome }}</h2>
+            <div class="info-admin">
+              <strong>Cargo:</strong> {{ func.cargo }}<br>
+              <strong>Email:</strong> {{ func.email }}<br>
+              <strong>Telefone:</strong> {{ func.telefone }}<br>
+              <strong>Idade:</strong> {{ func.idade }} anos
+            </div>
+            <div style="margin-bottom: 10px;">
+              <strong style="font-size: 0.9rem; color: var(--primaria);">Status:</strong> 
+              {% if func.status == 'Ativo' %}
+                <span style="color: #4caf50; font-weight: 600;">● {{ func.status }}</span>
+              {% else %}
+                <span style="color: #ff9800; font-weight: 600;">● {{ func.status }}</span>
+              {% endif %}
+            </div>
+            <div class="acoes-container">
+              <button class="btn">✏️ Editar</button>
+              <button class="btn btn-danger">🗑️ Remover</button>
+            </div>
+          </div>
+          {% endfor %}
+        {% else %}
+          <div style="grid-column: 1 / -1; text-align: center; padding: 40px; color: #999;">
+            <i class="fas fa-inbox" style="font-size: 3rem; margin-bottom: 10px;"></i>
+            <p>⚠️ Nenhum funcionário cadastrado</p>
+          </div>
+        {% endif %}
+      </div>
+    </section>
+
+    <!-- Endereço -->
+    <section id="endereco" class="section">
+      <h1>📍 Endereço PetVida</h1>
+      
+      <div class="grid-containers">
+        <div class="container_admin">
+          <h2>🏢 Matriz PetVida</h2>
+          <div class="info-admin">
+            <strong>Endereço:</strong> Rua das Flores, 123<br>
+            <strong>Cidade:</strong> Joinville, SC<br>
+            <strong>CEP:</strong> 12345-678
+          </div>
+          <div style="margin-bottom: 10px;">
+            <strong style="font-size: 0.9rem; color: var(--primaria);">Telefone:</strong> (47) 99999-9999
+          </div>
+          <div class="acoes-container">
+            <button class="btn">✏️ Editar</button>
+          </div>
+        </div>
+
+        <div class="container_admin">
+          <h2>💬 Contato Principal</h2>
+          <div class="info-admin">
+            <strong>Email:</strong> contato@petvida.com<br>
+            <strong>WhatsApp:</strong> (47) 99999-9999<br>
+            <strong>Atendimento:</strong> Seg-Sáb 08h-18h
+          </div>
+          <div style="margin-bottom: 10px;">
+            <strong style="font-size: 0.9rem; color: var(--primaria);">Status:</strong> <span style="color: #4caf50; font-weight: 600;">● Ativo</span>
+          </div>
+          <div class="acoes-container">
+            <button class="btn">✏️ Editar</button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    function showSection(sectionId) {
+      const sections = document.querySelectorAll('.section');
+      sections.forEach(section => {
+        section.classList.remove('active');
+      });
+
+      const selectedSection = document.getElementById(sectionId);
+      if (selectedSection) {
+        selectedSection.classList.add('active');
+      }
+    }
+  </script>
+
+</body>
+</html>
