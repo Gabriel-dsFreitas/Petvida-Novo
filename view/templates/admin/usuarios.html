@@ -12,17 +12,17 @@
     </tr>
   </thead>
   <tbody>
-      {% for u in usuarios %}
-      <tr>
-        <td>{{ u.nome }}</td>
-        <td>{{ u.email }}</td>
-        <td>{{ u.tipo }}</td>
-        <td>
-          <button class="btn">Bloquear</button>
-          <button class="btn btn-danger">Remover</button>
-        </td>
-      </tr>
-      {% endfor %}
+    {% for u in usuarios %}
+    <tr>
+      <td>{{ u.nome }}</td>
+      <td>{{ u.email }}</td>
+      <td>{{ u.telefone }}</td>
+      <td>
+        <button class="btn">Bloquear</button>
+        <button class="btn btn-danger">Remover</button>
+      </td>
+    </tr>
+    {% endfor %}
   </tbody>
 </table>
 {% endblock %}

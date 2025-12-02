@@ -102,9 +102,9 @@ def novo_produto():
         if "sucesso" in resultado.lower():
             return redirect('/admin_page/produtos')
 
-        return render_template("admin/form_produto.html", mensagem_erro=resultado)
+        return render_template("admin/novo_produto.html", mensagem_erro=resultado)
 
-    return render_template("admin/form_produto.html")
+    return render_template("admin/novo_produto.html")
 
 
 @app.route('/admin_page/produtos/editar/<int:id_produto>', methods=['GET', 'POST'])
@@ -116,10 +116,10 @@ def editar_produto(id_produto):
             return redirect('/admin_page/produtos')
 
         produto = consultar_produtos(id_produto)
-        return render_template("admin/form_produto.html", produto=produto, mensagem_erro=resultado)
+        return render_template("admin/editar_produto.html", produto=produto, mensagem_erro=resultado)
 
     produto = consultar_produtos(id_produto)
-    return render_template("admin/form_produto.html", produto=produto)
+    return render_template("admin/editar_produto.html", produto=produto)
 
 
 @app.route('/admin_page/produtos/excluir/<int:id_produto>')
@@ -136,11 +136,7 @@ def admin_usuarios():
    
     usuarios = get_usuarios()
 
-    lista = [
-        {"nome": u[0], "email": u[1], "idade": u[2], "telefone": u[3]}
-        for u in usuarios
-    ]
-    return render_template("admin/usuarios.html", usuarios=lista)
+    return render_template("admin/usuarios.html", usuarios=usuarios)
 
 
 # ==========================================================

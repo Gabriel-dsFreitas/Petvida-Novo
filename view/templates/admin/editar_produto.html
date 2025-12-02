@@ -1,0 +1,226 @@
+{% extends "layout/base_admin.html" %}
+{% block content %}
+
+<h1>✏️ Editar Produto</h1>
+
+<div style="background: white; padding: 2rem; border-radius: var(--raio); box-shadow: var(--sombra); max-width: 1200px;">
+  
+  <form method="POST" action="/admin_page/produtos/editar/{{ produto.id_produto }}">
+    
+    <!-- Grid 2x2 para os campos principais -->
+    <div class="grid-containers">
+      
+      <!-- Container 1: Informações Básicas -->
+      <div class="container_admin">
+        <h2>📋 Informações Básicas</h2>
+        
+        <div style="margin-bottom: 1rem;">
+          <label style="display: block; color: var(--primaria); font-weight: 600; margin-bottom: 0.3rem;">
+            Nome do Produto *
+          </label>
+          <input type="text" name="nome_produto" value="{{ produto.nome_produto }}" required
+                 style="width: 100%; padding: 0.6rem; border: 2px solid var(--clara); border-radius: var(--raio); font-size: 0.95rem;">
+        </div>
+
+        <div style="margin-bottom: 1rem;">
+          <label style="display: block; color: var(--primaria); font-weight: 600; margin-bottom: 0.3rem;">
+            Espécie *
+          </label>
+          <select name="especie" required
+                  style="width: 100%; padding: 0.6rem; border: 2px solid var(--clara); border-radius: var(--raio); font-size: 0.95rem;">
+            <option value="Cachorro" {% if produto.especie == 'Cachorro' %}selected{% endif %}>Cachorro</option>
+            <option value="Gato" {% if produto.especie == 'Gato' %}selected{% endif %}>Gato</option>
+            <option value="Ave" {% if produto.especie == 'Ave' %}selected{% endif %}>Ave</option>
+            <option value="Roedor" {% if produto.especie == 'Roedor' %}selected{% endif %}>Roedor</option>
+            <option value="Outro" {% if produto.especie == 'Outro' %}selected{% endif %}>Outro</option>
+          </select>
+        </div>
+
+        <div style="margin-bottom: 1rem;">
+          <label style="display: block; color: var(--primaria); font-weight: 600; margin-bottom: 0.3rem;">
+            Fase de Vida *
+          </label>
+          <select name="fase_vida" required
+                  style="width: 100%; padding: 0.6rem; border: 2px solid var(--clara); border-radius: var(--raio); font-size: 0.95rem;">
+            <option value="Filhote" {% if produto.fase_vida == 'Filhote' %}selected{% endif %}>Filhote</option>
+            <option value="Adulto" {% if produto.fase_vida == 'Adulto' %}selected{% endif %}>Adulto</option>
+            <option value="Idoso" {% if produto.fase_vida == 'Idoso' %}selected{% endif %}>Idoso</option>
+            <option value="Todas" {% if produto.fase_vida == 'Todas' %}selected{% endif %}>Todas as idades</option>
+          </select>
+        </div>
+
+        <div style="margin-bottom: 0;">
+          <label style="display: block; color: var(--primaria); font-weight: 600; margin-bottom: 0.3rem;">
+            Peso (kg) *
+          </label>
+          <input type="text" name="peso" value="{{ produto.peso }}" required
+                 placeholder="Ex: 1kg, 5kg, 10kg"
+                 style="width: 100%; padding: 0.6rem; border: 2px solid var(--clara); border-radius: var(--raio); font-size: 0.95rem;">
+        </div>
+      </div>
+
+      <!-- Container 2: Composição -->
+      <div class="container_admin">
+        <h2>🧪 Composição</h2>
+        
+        <div style="margin-bottom: 1rem;">
+          <label style="display: block; color: var(--primaria); font-weight: 600; margin-bottom: 0.3rem;">
+            Ingredientes
+          </label>
+          <textarea name="ingredientes" rows="3"
+                    style="width: 100%; padding: 0.6rem; border: 2px solid var(--clara); border-radius: var(--raio); font-size: 0.95rem; resize: vertical;"
+                    placeholder="Liste os ingredientes principais">{{ produto.ingredientes }}</textarea>
+        </div>
+
+        <div style="margin-bottom: 1rem;">
+          <label style="display: block; color: var(--primaria); font-weight: 600; margin-bottom: 0.3rem;">
+            Tabela Nutricional
+          </label>
+          <textarea name="tabela_nutricional" rows="3"
+                    style="width: 100%; padding: 0.6rem; border: 2px solid var(--clara); border-radius: var(--raio); font-size: 0.95rem; resize: vertical;"
+                    placeholder="Proteínas, gorduras, fibras, etc.">{{ produto.tabela_nutricional }}</textarea>
+        </div>
+
+        <div style="margin-bottom: 0;">
+          <label style="display: block; color: var(--primaria); font-weight: 600; margin-bottom: 0.3rem;">
+            Aditivos
+          </label>
+          <textarea name="aditivos" rows="2"
+                    style="width: 100%; padding: 0.6rem; border: 2px solid var(--clara); border-radius: var(--raio); font-size: 0.95rem; resize: vertical;"
+                    placeholder="Conservantes, corantes, etc.">{{ produto.aditivos }}</textarea>
+        </div>
+      </div>
+
+      <!-- Container 3: Detalhes do Produto -->
+      <div class="container_admin">
+        <h2>📝 Detalhes do Produto</h2>
+        
+        <div style="margin-bottom: 1rem;">
+          <label style="display: block; color: var(--primaria); font-weight: 600; margin-bottom: 0.3rem;">
+            Descrição
+          </label>
+          <textarea name="descricao" rows="4"
+                    style="width: 100%; padding: 0.6rem; border: 2px solid var(--clara); border-radius: var(--raio); font-size: 0.95rem; resize: vertical;"
+                    placeholder="Descrição detalhada do produto">{{ produto.descricao }}</textarea>
+        </div>
+
+        <div style="margin-bottom: 1rem;">
+          <label style="display: block; color: var(--primaria); font-weight: 600; margin-bottom: 0.3rem;">
+            Lote
+          </label>
+          <input type="text" name="lote" value="{{ produto.lote }}"
+                 style="width: 100%; padding: 0.6rem; border: 2px solid var(--clara); border-radius: var(--raio); font-size: 0.95rem;">
+        </div>
+
+        <div style="margin-bottom: 0;">
+          <label style="display: block; color: var(--primaria); font-weight: 600; margin-bottom: 0.3rem;">
+            Armazenamento
+          </label>
+          <input type="text" name="armazenamento" value="{{ produto.armazenamento }}"
+                 placeholder="Local fresco e seco"
+                 style="width: 100%; padding: 0.6rem; border: 2px solid var(--clara); border-radius: var(--raio); font-size: 0.95rem;">
+        </div>
+      </div>
+
+      <!-- Container 4: Datas e Validade -->
+      <div class="container_admin">
+        <h2>📅 Datas e Validade</h2>
+        
+        <div style="margin-bottom: 1rem;">
+          <label style="display: block; color: var(--primaria); font-weight: 600; margin-bottom: 0.3rem;">
+            Data de Fabricação
+          </label>
+          <input type="date" name="data_fabricacao" value="{{ produto.data_fabricacao }}"
+                 style="width: 100%; padding: 0.6rem; border: 2px solid var(--clara); border-radius: var(--raio); font-size: 0.95rem;">
+        </div>
+
+        <div style="margin-bottom: 1rem;">
+          <label style="display: block; color: var(--primaria); font-weight: 600; margin-bottom: 0.3rem;">
+            Data de Validade *
+          </label>
+          <input type="date" name="data_validade" value="{{ produto.data_validade }}" required
+                 style="width: 100%; padding: 0.6rem; border: 2px solid var(--clara); border-radius: var(--raio); font-size: 0.95rem;">
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+          <div>
+            <label style="display: block; color: var(--primaria); font-weight: 600; margin-bottom: 0.3rem;">
+              Preço (R$) *
+            </label>
+            <input type="number" step="0.01" name="preco_unitario" value="{{ produto.preco_unitario }}" required
+                   style="width: 100%; padding: 0.6rem; border: 2px solid var(--clara); border-radius: var(--raio); font-size: 0.95rem;">
+          </div>
+
+          <div>
+            <label style="display: block; color: var(--primaria); font-weight: 600; margin-bottom: 0.3rem;">
+              Estoque *
+            </label>
+            <input type="number" name="quantidade_estoque" value="{{ produto.quantidade_estoque }}" required
+                   style="width: 100%; padding: 0.6rem; border: 2px solid var(--clara); border-radius: var(--raio); font-size: 0.95rem;">
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Container adicional: Relacionamentos e Status -->
+    <div class="container_admin" style="margin-top: 15px;">
+      <h2>🔗 Relacionamentos e Status</h2>
+      
+      <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem;">
+        
+        <div>
+          <label style="display: block; color: var(--primaria); font-weight: 600; margin-bottom: 0.3rem;">
+            ID Empresa
+          </label>
+          <input type="number" name="id_empresa" value="{{ produto.id_empresa }}"
+                 style="width: 100%; padding: 0.6rem; border: 2px solid var(--clara); border-radius: var(--raio); font-size: 0.95rem;">
+        </div>
+
+        <div>
+          <label style="display: block; color: var(--primaria); font-weight: 600; margin-bottom: 0.3rem;">
+            ID Funcionário
+          </label>
+          <input type="number" name="id_funcionario" value="{{ produto.id_funcionario }}"
+                 style="width: 100%; padding: 0.6rem; border: 2px solid var(--clara); border-radius: var(--raio); font-size: 0.95rem;">
+        </div>
+
+        <div>
+          <label style="display: block; color: var(--primaria); font-weight: 600; margin-bottom: 0.3rem;">
+            ID Administrador
+          </label>
+          <input type="number" name="id_adm" value="{{ produto.id_adm }}"
+                 style="width: 100%; padding: 0.6rem; border: 2px solid var(--clara); border-radius: var(--raio); font-size: 0.95rem;">
+        </div>
+
+        <div>
+          <label style="display: block; color: var(--primaria); font-weight: 600; margin-bottom: 0.3rem;">
+            Status *
+          </label>
+          <select name="status" required
+                  style="width: 100%; padding: 0.6rem; border: 2px solid var(--clara); border-radius: var(--raio); font-size: 0.95rem;">
+            <option value="Ativo" {% if produto.status == 'Ativo' %}selected{% endif %}>Ativo</option>
+            <option value="Inativo" {% if produto.status == 'Inativo' %}selected{% endif %}>Inativo</option>
+            <option value="Descontinuado" {% if produto.status == 'Descontinuado' %}selected{% endif %}>Descontinuado</option>
+          </select>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Botões de ação -->
+    <div style="display: flex; gap: 1rem; margin-top: 2rem; justify-content: flex-end;">
+      <a href="/admin_page/produtos" class="btn" 
+         style="background: #999; text-decoration: none; display: inline-block;">
+        ← Cancelar
+      </a>
+      <button type="submit" class="btn">
+        💾 Salvar Alterações
+      </button>
+    </div>
+
+  </form>
+
+</div>
+
+{% endblock %}

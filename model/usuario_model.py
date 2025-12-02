@@ -8,7 +8,7 @@ def get_usuarios():
         usuarios = cursor.fetchall()
         cursor.close()
         
-        return {"success": True, "usuarios": usuarios}
+        return usuarios
     
     except Exception as e:
         print(f"Erro ao buscar usuários: {e}")
