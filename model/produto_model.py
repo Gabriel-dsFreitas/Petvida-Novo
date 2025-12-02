@@ -202,3 +202,25 @@ def consultar_produtos(id_produto=None):
     finally:
         if cursor:
             cursor.close()
+
+# ============================================================
+# SELECT – consultar lista de empresas
+# ============================================================
+def consultar_empresas():
+
+    cursor = None
+    try:
+        cursor = conexao.cursor(dictionary=True)
+
+        sql = "SELECT id_empresa, nome_empresa FROM empresa ORDER BY nome_empresa ASC"
+        cursor.execute(sql)
+
+        return cursor.fetchall()
+
+    except Exception as e:
+        print(f"Erro ao consultar empresas: {e}")
+        return None
+
+    finally:
+        if cursor:
+            cursor.close()

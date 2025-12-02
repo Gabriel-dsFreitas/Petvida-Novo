@@ -15,14 +15,19 @@ from model.usuario_model import (
 )
 
 from model.funcionario_model import (
-    get_funcionarios
+    get_funcionarios,
+    get_funcionario,
+    inserir_funcionario,
+    alterar_funcionario,
+    excluir_funcionario
 )
 
 from model.produto_model import (
     inserir_produto,
     alterar_produto,
     excluir_produto,
-    consultar_produtos
+    consultar_produtos,
+    consultar_empresas
 )
 
 conectar = conexao
@@ -96,30 +101,46 @@ def listar_produtos():
 
 @app.route('/admin_page/produtos/novo', methods=['GET', 'POST'])
 def novo_produto():
+    empresas = consultar_empresas()   
+
     if request.method == 'POST':
         resultado = inserir_produto()
 
         if "sucesso" in resultado.lower():
             return redirect('/admin_page/produtos')
 
-        return render_template("admin/novo_produto.html", mensagem_erro=resultado)
+        return render_template(
+            "admin/novo_produto.html",
+            mensagem_erro=resultado,
+            empresas=empresas
+        )
 
-    return render_template("admin/novo_produto.html")
+    return render_template("admin/novo_produto.html", empresas=empresas)
 
 
 @app.route('/admin_page/produtos/editar/<int:id_produto>', methods=['GET', 'POST'])
 def editar_produto(id_produto):
+    empresas = consultar_empresas()  # << Envia lista para o select
+    produto = consultar_produtos(id_produto)
+
     if request.method == 'POST':
         resultado = alterar_produto(id_produto)
 
         if "sucesso" in resultado.lower():
             return redirect('/admin_page/produtos')
 
-        produto = consultar_produtos(id_produto)
-        return render_template("admin/editar_produto.html", produto=produto, mensagem_erro=resultado)
+        return render_template(
+            "admin/editar_produto.html",
+            produto=produto,
+            empresas=empresas,
+            mensagem_erro=resultado
+        )
 
-    produto = consultar_produtos(id_produto)
-    return render_template("admin/editar_produto.html", produto=produto)
+    return render_template(
+        "admin/editar_produto.html",
+        produto=produto,
+        empresas=empresas
+    )
 
 
 @app.route('/admin_page/produtos/excluir/<int:id_produto>')
@@ -174,6 +195,84 @@ def admin_funcionarios():
 @app.route('/admin_page/endereco')
 def admin_endereco():
     return render_template("admin/endereco.html")
+
+
+# ==========================================================
+# 🤝 FUNCIONÁRIOS – CRUD COMPLETO
+# ==========================================================
+
+# ➕ NOVO FUNCIONÁRIO
+@app.route('/admin_page/colaboradores/novo', methods=['GET', 'POST'])
+def novo_funcionario():
+    if request.method == 'POST':
+
+        dados = {
+            "nome": request.form.get("nome"),
+            "email": request.form.get("email"),
+            "idade": request.form.get("idade"),
+            "telefone": request.form.get("telefone"),
+            "senha": request.form.get("senha"),
+            "cargo": request.form.get("cargo"),
+            "status_funcionario": request.form.get("status_funcionario"),
+            "id_adm": request.form.get("id_adm"),
+            "novo_status": request.form.get("novo_status")
+        }
+
+        resultado = inserir_funcionario(dados)
+
+        if "sucesso" in resultado.lower():
+            return redirect('/admin_page/colaboradores')
+
+        return render_template(
+            "admin/novo_funcionario.html",
+            mensagem_erro=resultado
+        )
+
+    return render_template("admin/novo_funcionario.html")
+
+
+# ✏️ EDITAR FUNCIONÁRIO
+@app.route('/admin_page/colaboradores/editar/<int:id_funcionario>', methods=['GET', 'POST'])
+def editar_funcionario(id_funcionario):
+
+    funcionario = get_funcionario(id_funcionario)
+
+    if request.method == 'POST':
+
+        dados = {
+            "nome": request.form.get("nome"),
+            "email": request.form.get("email"),
+            "idade": request.form.get("idade"),
+            "telefone": request.form.get("telefone"),
+            "senha": request.form.get("senha"),
+            "cargo": request.form.get("cargo"),
+            "status_funcionario": request.form.get("status_funcionario"),
+            "id_adm": request.form.get("id_adm"),
+            "novo_status": request.form.get("novo_status")
+        }
+
+        resultado = alterar_funcionario(id_funcionario, dados)
+
+        if "sucesso" in resultado.lower():
+            return redirect('/admin_page/colaboradores')
+
+        return render_template(
+            "admin/editar_funcionario.html",
+            funcionario=funcionario,
+            mensagem_erro=resultado
+        )
+
+    return render_template(
+        "admin/editar_funcionario.html",
+        funcionario=funcionario
+    )
+
+
+# ❌ EXCLUIR FUNCIONÁRIO
+@app.route('/admin_page/colaboradores/excluir/<int:id_funcionario>')
+def deletar_funcionario(id_funcionario):
+    excluir_funcionario(id_funcionario)
+    return redirect('/admin_page/colaboradores')
 
 
 # ==========================================================

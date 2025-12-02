@@ -1,0 +1,102 @@
+{% extends "layout/base_admin.html" %}
+{% block content %}
+
+<h1>➕ Novo Funcionário</h1>
+
+<div style="background: white; padding: 2rem; border-radius: var(--raio); box-shadow: var(--sombra); max-width: 1200px;">
+
+  <form method="POST" action="/admin_page/colaboradores/novo">
+
+    <div class="grid-containers">
+
+      <!-- Container 1: Dados Pessoais -->
+      <div class="container_admin">
+        <h2>👤 Dados Pessoais</h2>
+
+        <div style="margin-bottom: 1rem;">
+          <label style="display:block;color:var(--primaria);font-weight:600;margin-bottom:0.3rem;">
+            Nome *
+          </label>
+          <input type="text" name="nome" required
+                 style="width:100%;padding:0.6rem;border:2px solid var(--clara);border-radius:var(--raio);font-size:0.95rem;">
+        </div>
+
+        <div style="margin-bottom:1rem;">
+          <label style="display:block;color:var(--primaria);font-weight:600;margin-bottom:0.3rem;">
+            Email *
+          </label>
+          <input type="email" name="email" required
+                 style="width:100%;padding:0.6rem;border:2px solid var(--clara);border-radius:var(--raio);font-size:0.95rem;">
+        </div>
+
+        <div style="margin-bottom:1rem;">
+          <label style="display:block;color:var(--primaria);font-weight:600;margin-bottom:0.3rem;">
+            Idade
+          </label>
+          <input type="number" name="idade"
+                 style="width:100%;padding:0.6rem;border:2px solid var(--clara);border-radius:var(--raio);font-size:0.95rem;">
+        </div>
+
+        <div style="margin-bottom:0;">
+          <label style="display:block;color:var(--primaria);font-weight:600;margin-bottom:0.3rem;">
+            Telefone
+          </label>
+          <input type="text" name="telefone"
+                 style="width:100%;padding:0.6rem;border:2px solid var(--clara);border-radius:var(--raio);font-size:0.95rem;">
+        </div>
+      </div>
+
+
+      <!-- Container 2: Acesso e Cargo -->
+      <div class="container_admin">
+        <h2>🛂 Acesso e Cargo</h2>
+
+        <div style="margin-bottom:1rem;">
+          <label style="display:block;color:var(--primaria);font-weight:600;margin-bottom:0.3rem;">
+            Senha *
+          </label>
+          <input type="password" name="senha" required
+                 style="width:100%;padding:0.6rem;border:2px solid var(--clara);border-radius:var(--raio);font-size:0.95rem;">
+        </div>
+
+        <div style="margin-bottom:1rem;">
+          <label style="display:block;color:var(--primaria);font-weight:600;margin-bottom:0.3rem;">
+            Cargo
+          </label>
+          <input type="text" name="cargo"
+                 style="width:100%;padding:0.6rem;border:2px solid var(--clara);border-radius:var(--raio);font-size:0.95rem;">
+        </div>
+
+        <div style="margin-bottom:1rem;">
+          <label style="display:block;color:var(--primaria);font-weight:600;margin-bottom:0.3rem;">
+            Status *
+          </label>
+          <select name="status_funcionario" required
+                  style="width:100%;padding:0.6rem;border:2px solid var(--clara);border-radius:var(--raio);font-size:0.95rem;">
+            <option value="Ativo">Ativo</option>
+            <option value="Inativo">Inativo</option>
+          </select>
+        </div>
+
+        <!-- Campos fixos -->
+        <input type="hidden" name="id_adm" value="1">
+        <input type="hidden" name="novo_status" value="Ativo">
+      </div>
+
+    </div>
+
+    <!-- Botões -->
+    <div style="display:flex;gap:1rem;margin-top:2rem;justify-content:flex-end;">
+      <button type="button" class="btn" style="background:#999;" onclick="window.location.href='/admin_page/colaboradores'">
+        ← Cancelar
+      </button>
+      <button type="submit" class="btn">
+        💾 Salvar Funcionário
+      </button>
+    </div>
+
+  </form>
+
+</div>
+
+{% endblock %}

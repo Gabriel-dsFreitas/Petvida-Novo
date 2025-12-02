@@ -168,30 +168,26 @@
       <h2>🔗 Relacionamentos e Status</h2>
       
       <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem;">
-        
+
+        <!-- Lista de empresas -->
         <div>
           <label style="display: block; color: var(--primaria); font-weight: 600; margin-bottom: 0.3rem;">
-            ID Empresa
+            Empresa *
           </label>
-          <input type="number" name="id_empresa" value="{{ produto.id_empresa }}"
-                 style="width: 100%; padding: 0.6rem; border: 2px solid var(--clara); border-radius: var(--raio); font-size: 0.95rem;">
+          <select name="id_empresa" required
+                  style="width: 100%; padding: 0.6rem; border: 2px solid var(--clara); border-radius: var(--raio); font-size: 0.95rem;">
+            {% for e in empresas %}
+            <option value="{{ e.id_empresa }}" 
+              {% if produto.id_empresa == e.id_empresa %}selected{% endif %}>
+              {{ e.nome_empresa }}
+            </option>
+            {% endfor %}
+          </select>
         </div>
 
-        <div>
-          <label style="display: block; color: var(--primaria); font-weight: 600; margin-bottom: 0.3rem;">
-            ID Funcionário
-          </label>
-          <input type="number" name="id_funcionario" value="{{ produto.id_funcionario }}"
-                 style="width: 100%; padding: 0.6rem; border: 2px solid var(--clara); border-radius: var(--raio); font-size: 0.95rem;">
-        </div>
-
-        <div>
-          <label style="display: block; color: var(--primaria); font-weight: 600; margin-bottom: 0.3rem;">
-            ID Administrador
-          </label>
-          <input type="number" name="id_adm" value="{{ produto.id_adm }}"
-                 style="width: 100%; padding: 0.6rem; border: 2px solid var(--clara); border-radius: var(--raio); font-size: 0.95rem;">
-        </div>
+        <!-- Campos ocultos fixos -->
+        <input type="hidden" name="id_funcionario" value="1">
+        <input type="hidden" name="id_adm" value="1">
 
         <div>
           <label style="display: block; color: var(--primaria); font-weight: 600; margin-bottom: 0.3rem;">
@@ -207,6 +203,7 @@
 
       </div>
     </div>
+
 
     <!-- Botões de ação -->
     <div style="display: flex; gap: 1rem; margin-top: 2rem; justify-content: flex-end;">

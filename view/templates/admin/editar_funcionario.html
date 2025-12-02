@@ -1,0 +1,103 @@
+{% extends "layout/base_admin.html" %}
+{% block content %}
+
+<h1>✏️ Editar Funcionário</h1>
+
+<div style="background:white;padding:2rem;border-radius:var(--raio);box-shadow:var(--sombra);max-width:1200px;">
+
+  <form method="POST" action="/admin_page/colaboradores/editar/{{ funcionario.id_funcionario }}">
+
+    <div class="grid-containers">
+
+      <!-- Container 1: Dados Pessoais -->
+      <div class="container_admin">
+        <h2>👤 Dados Pessoais</h2>
+
+        <div style="margin-bottom:1rem;">
+          <label style="display:block;color:var(--primaria);font-weight:600;margin-bottom:0.3rem;">
+            Nome *
+          </label>
+          <input type="text" name="nome" value="{{ funcionario.nome }}" required
+                 style="width:100%;padding:0.6rem;border:2px solid var(--clara);border-radius:var(--raio);font-size:0.95rem;">
+        </div>
+
+        <div style="margin-bottom:1rem;">
+          <label style="display:block;color:var(--primaria);font-weight:600;margin-bottom:0.3rem;">
+            Email *
+          </label>
+          <input type="email" name="email" value="{{ funcionario.email }}" required
+                 style="width:100%;padding:0.6rem;border:2px solid var(--clara);border-radius:var(--raio);font-size:0.95rem;">
+        </div>
+
+        <div style="margin-bottom:1rem;">
+          <label style="display:block;color:var(--primaria);font-weight:600;margin-bottom:0.3rem;">
+            Idade
+          </label>
+          <input type="number" name="idade" value="{{ funcionario.idade }}"
+                 style="width:100%;padding:0.6rem;border:2px solid var(--clara);border-radius:var(--raio);font-size:0.95rem;">
+        </div>
+
+        <div style="margin-bottom:0;">
+          <label style="display:block;color:var(--primaria);font-weight:600;margin-bottom:0.3rem;">
+            Telefone
+          </label>
+          <input type="text" name="telefone" value="{{ funcionario.telefone }}"
+                 style="width:100%;padding:0.6rem;border:2px solid var(--clara);border-radius:var(--raio);font-size:0.95rem;">
+        </div>
+
+      </div>
+
+      <!-- Container 2: Cargo e Acessos -->
+      <div class="container_admin">
+        <h2>🛂 Acesso e Cargo</h2>
+
+        <div style="margin-bottom:1rem;">
+          <label style="display:block;color:var(--primaria);font-weight:600;margin-bottom:0.3rem;">
+            Senha *
+          </label>
+          <input type="password" name="senha" required
+                 style="width:100%;padding:0.6rem;border:2px solid var(--clara);border-radius:var(--raio);font-size:0.95rem;"
+                 value="{{ funcionario.senha }}">
+        </div>
+
+        <div style="margin-bottom:1rem;">
+          <label style="display:block;color:var(--primaria);font-weight:600;margin-bottom:0.3rem;">
+            Cargo
+          </label>
+          <input type="text" name="cargo" value="{{ funcionario.cargo }}"
+                 style="width:100%;padding:0.6rem;border:2px solid var(--clara);border-radius:var(--raio);font-size:0.95rem;">
+        </div>
+
+        <div style="margin-bottom:1rem;">
+          <label style="display:block;color:var(--primaria);font-weight:600;margin-bottom:0.3rem;">
+            Status *
+          </label>
+          <select name="status_funcionario" required
+                  style="width:100%;padding:0.6rem;border:2px solid var(--clara);border-radius:var(--raio);font-size:0.95rem;">
+            <option value="Ativo" {% if funcionario.status_funcionario == 'Ativo' %}selected{% endif %}>Ativo</option>
+            <option value="Inativo" {% if funcionario.status_funcionario == 'Inativo' %}selected{% endif %}>Inativo</option>
+          </select>
+        </div>
+
+        <!-- Campos ocultos -->
+        <input type="hidden" name="id_adm" value="1">
+        <input type="hidden" name="novo_status" value="{{ funcionario.novo_status }}">
+      </div>
+
+    </div>
+
+    <!-- Botões -->
+    <div style="display:flex;gap:1rem;margin-top:2rem;justify-content:flex-end;">
+      <button type="button" class="btn" style="background:#999;" onclick="window.location.href='/admin_page/colaboradores'">
+        ← Cancelar
+      </button>
+      <button type="submit" class="btn">
+        💾 Salvar Alterações
+      </button>
+    </div>
+
+  </form>
+
+</div>
+
+{% endblock %}
